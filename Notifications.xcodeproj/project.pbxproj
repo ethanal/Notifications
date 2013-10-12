@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27BAD2529D6A47BD91C1BB20 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D58AB964C8ED43B0BA6519F1 /* libPods.a */; };
 		AA1E368B1808F80A00594856 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E368A1808F80A00594856 /* Foundation.framework */; };
 		AA1E368D1808F80A00594856 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E368C1808F80A00594856 /* CoreGraphics.framework */; };
 		AA1E368F1808F80B00594856 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E368E1808F80B00594856 /* UIKit.framework */; };
@@ -15,13 +16,16 @@
 		AA1E369B1808F80B00594856 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1E369A1808F80B00594856 /* AppDelegate.m */; };
 		AA1E369E1808F80B00594856 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA1E369C1808F80B00594856 /* Main_iPhone.storyboard */; };
 		AA1E36A11808F80B00594856 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA1E369F1808F80B00594856 /* Main_iPad.storyboard */; };
-		AA1E36A41808F80B00594856 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1E36A31808F80B00594856 /* ViewController.m */; };
+		AA1E36A41808F80B00594856 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1E36A31808F80B00594856 /* FeedListViewController.m */; };
 		AA1E36A61808F80B00594856 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA1E36A51808F80B00594856 /* Images.xcassets */; };
 		AA1E36AD1808F80B00594856 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E36AC1808F80B00594856 /* XCTest.framework */; };
 		AA1E36AE1808F80B00594856 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E368A1808F80A00594856 /* Foundation.framework */; };
 		AA1E36AF1808F80B00594856 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E368E1808F80B00594856 /* UIKit.framework */; };
 		AA1E36B71808F80B00594856 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA1E36B51808F80B00594856 /* InfoPlist.strings */; };
 		AA1E36B91808F80B00594856 /* NotificationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1E36B81808F80B00594856 /* NotificationsTests.m */; };
+		AAC265911809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC265901809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m */; };
+		AAC265941809BFCD009D0DF2 /* SubscribeModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC265931809BFCD009D0DF2 /* SubscribeModalViewController.m */; };
+		AAC2659F1809D05E009D0DF2 /* NotificationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2659E1809D05E009D0DF2 /* NotificationsListViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9791054768BF40B9A45934CB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		AA1E36871808F80A00594856 /* Notifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1E368A1808F80A00594856 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AA1E368C1808F80A00594856 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -47,14 +52,22 @@
 		AA1E369A1808F80B00594856 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		AA1E369D1808F80B00594856 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		AA1E36A01808F80B00594856 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		AA1E36A21808F80B00594856 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		AA1E36A31808F80B00594856 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		AA1E36A21808F80B00594856 /* FeedListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedListViewController.h; sourceTree = "<group>"; };
+		AA1E36A31808F80B00594856 /* FeedListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedListViewController.m; sourceTree = "<group>"; };
 		AA1E36A51808F80B00594856 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA1E36AB1808F80B00594856 /* NotificationsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificationsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1E36AC1808F80B00594856 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		AA1E36B41808F80B00594856 /* NotificationsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NotificationsTests-Info.plist"; sourceTree = "<group>"; };
 		AA1E36B61808F80B00594856 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AA1E36B81808F80B00594856 /* NotificationsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationsTests.m; sourceTree = "<group>"; };
+		AAC2658F1809AD13009D0DF2 /* UnreadNotificationsIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadNotificationsIndicatorView.h; sourceTree = "<group>"; };
+		AAC265901809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadNotificationsIndicatorView.m; sourceTree = "<group>"; };
+		AAC265921809BFCD009D0DF2 /* SubscribeModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribeModalViewController.h; sourceTree = "<group>"; };
+		AAC265931809BFCD009D0DF2 /* SubscribeModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribeModalViewController.m; sourceTree = "<group>"; };
+		AAC265951809C428009D0DF2 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		AAC2659D1809D05E009D0DF2 /* NotificationsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsListViewController.h; sourceTree = "<group>"; };
+		AAC2659E1809D05E009D0DF2 /* NotificationsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsListViewController.m; sourceTree = "<group>"; };
+		D58AB964C8ED43B0BA6519F1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +78,7 @@
 				AA1E368D1808F80A00594856 /* CoreGraphics.framework in Frameworks */,
 				AA1E368F1808F80B00594856 /* UIKit.framework in Frameworks */,
 				AA1E368B1808F80A00594856 /* Foundation.framework in Frameworks */,
+				27BAD2529D6A47BD91C1BB20 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +102,7 @@
 				AA1E36B21808F80B00594856 /* NotificationsTests */,
 				AA1E36891808F80A00594856 /* Frameworks */,
 				AA1E36881808F80A00594856 /* Products */,
+				9791054768BF40B9A45934CB /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +122,7 @@
 				AA1E368C1808F80A00594856 /* CoreGraphics.framework */,
 				AA1E368E1808F80B00594856 /* UIKit.framework */,
 				AA1E36AC1808F80B00594856 /* XCTest.framework */,
+				D58AB964C8ED43B0BA6519F1 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -118,10 +134,17 @@
 				AA1E369A1808F80B00594856 /* AppDelegate.m */,
 				AA1E369C1808F80B00594856 /* Main_iPhone.storyboard */,
 				AA1E369F1808F80B00594856 /* Main_iPad.storyboard */,
-				AA1E36A21808F80B00594856 /* ViewController.h */,
-				AA1E36A31808F80B00594856 /* ViewController.m */,
+				AA1E36A21808F80B00594856 /* FeedListViewController.h */,
+				AA1E36A31808F80B00594856 /* FeedListViewController.m */,
+				AAC2659D1809D05E009D0DF2 /* NotificationsListViewController.h */,
+				AAC2659E1809D05E009D0DF2 /* NotificationsListViewController.m */,
+				AAC265921809BFCD009D0DF2 /* SubscribeModalViewController.h */,
+				AAC265931809BFCD009D0DF2 /* SubscribeModalViewController.m */,
 				AA1E36A51808F80B00594856 /* Images.xcassets */,
 				AA1E36911808F80B00594856 /* Supporting Files */,
+				AAC2658F1809AD13009D0DF2 /* UnreadNotificationsIndicatorView.h */,
+				AAC265901809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m */,
+				AAC265951809C428009D0DF2 /* Config.h */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -162,9 +185,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA1E36BC1808F80B00594856 /* Build configuration list for PBXNativeTarget "Notifications" */;
 			buildPhases = (
+				8784988C9F27440E865175C7 /* Check Pods Manifest.lock */,
 				AA1E36831808F80A00594856 /* Sources */,
 				AA1E36841808F80A00594856 /* Frameworks */,
 				AA1E36851808F80A00594856 /* Resources */,
+				2B0045A3FA5249608DED2667 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -248,13 +273,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2B0045A3FA5249608DED2667 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8784988C9F27440E865175C7 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AA1E36831808F80A00594856 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA1E36A41808F80B00594856 /* ViewController.m in Sources */,
+				AA1E36A41808F80B00594856 /* FeedListViewController.m in Sources */,
+				AAC265911809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m in Sources */,
 				AA1E369B1808F80B00594856 /* AppDelegate.m in Sources */,
+				AAC2659F1809D05E009D0DF2 /* NotificationsListViewController.m in Sources */,
+				AAC265941809BFCD009D0DF2 /* SubscribeModalViewController.m in Sources */,
 				AA1E36971808F80B00594856 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,6 +450,7 @@
 		};
 		AA1E36BD1808F80B00594856 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9791054768BF40B9A45934CB /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -402,6 +464,7 @@
 		};
 		AA1E36BE1808F80B00594856 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9791054768BF40B9A45934CB /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -474,6 +537,7 @@
 				AA1E36BE1808F80B00594856 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AA1E36BF1808F80B00594856 /* Build configuration list for PBXNativeTarget "NotificationsTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +546,7 @@
 				AA1E36C11808F80B00594856 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
