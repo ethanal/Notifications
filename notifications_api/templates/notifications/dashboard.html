@@ -1,0 +1,120 @@
+{% extends "notifications/base.html" %}
+
+{% block title %}{{ block.super }}: Dashboard{% endblock %}
+
+
+{% block body %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Notifications Dashboard</a>
+        </div>
+        <div class="collapse navbar-collapse pull-right">
+            <ul class="nav navbar-nav">
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="starter-template">
+        <div class="margin-flush row">
+            <h3>Your API Key</h3>
+            <div class="col-lg-4">
+                <input type="text" value="{{ api_key }}" class="form-control centered">
+            </div>
+        </div>
+
+        <h3>Your Devices</h3>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <th>
+                    Device ID
+                </th>
+                <th>
+                    APN Device Token
+                </th>
+                <th>
+                    Feed Subscriptions
+                </th>
+            </thead>
+            <tbody>
+                {% for device in devices %}
+                    <tr>
+                        <td>
+                            {{ device.pk }}
+                        </td>
+                        <td>
+                            {{ device.device_token }}
+                        </td>
+                        <td>
+                            {% for feed in device.feed_set.all %}
+                                <span class="label label-info">{{ feed.pk }}: {{ feed.name }}</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Your Feeds</h3>
+        <table class="table table-hover table-condensed">
+            <thead>
+                <th>
+                    Feed ID
+                </th>
+                <th>
+                    Feed Name
+                </th>
+                <th>
+                    PIN
+                </th>
+                <th>
+                    Notification Count
+                </th>
+                <th></th>
+            </thead>
+
+            <tbody>
+                {% for feed in feeds %}
+                    <tr>
+                        <td>
+                            {{ feed.pk }}
+                        </td>
+                        <td>
+                            {{ feed.name }}
+                        </td>
+                        <td>
+                            {{ feed.pin }}
+                        </td>
+                        <td>
+                            {{ feed.notification_count }}
+                        </td>
+                        <td>
+                            <form action="/deletefeed/{{ feed.pk }}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-xs">Delete Feed</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <form class="form-inline" action="/createfeed" method="post">
+            {% csrf_token %}
+            <h4>Create Feed</h4>
+            <div class="form-group{% if form_errors %} has-error{% endif %}">
+                <input type="text" class="form-control" placeholder="Name{% if form_errors %} invalid{% endif %}" name="name">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

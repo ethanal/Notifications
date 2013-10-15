@@ -10,4 +10,10 @@
 
 @interface SubscribeModalViewController : UIViewController <UITextFieldDelegate>
 
+@property (strong, nonatomic) IBOutlet UITextField *feedIDField;
+@property (strong, nonatomic) IBOutlet UITextField *pinField;
+
+
+- (IBAction)submit:(id)sender;
+
 @end

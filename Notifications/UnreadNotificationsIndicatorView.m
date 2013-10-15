@@ -10,6 +10,8 @@
 
 @implementation UnreadNotificationsIndicatorView
 
+@synthesize active = _active;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -24,6 +26,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.active = status;
+        self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     }
     return self;
 }
@@ -34,10 +37,17 @@
 {
     if (self.active) {
         CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextClearRect(ctx, rect);
         CGContextAddEllipseInRect(ctx, rect);
         CGContextSetFillColor(ctx, CGColorGetComponents([[UIColor colorWithRed:0.11 green:0.47 blue:0.97 alpha:1] CGColor]));
         CGContextFillPath(ctx);
     }
+}
+
+- (void)setActive:(BOOL)active
+{
+    _active = active;
+    [self setNeedsDisplay];
 }
 
 @end

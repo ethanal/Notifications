@@ -1,0 +1,22 @@
+{% extends "notifications/base.html" %}
+
+{% block title %}{{ block.super }}: Login{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <form class="form-user-pass" action="/login" method="post">
+        {% csrf_token %}
+        <h2 class="form-user-pass-heading">Please sign in</h2>
+        {% if message %}
+            {{ message }}
+        {% endif %}
+        <input type="text" class="form-control" placeholder="Username" name="username" autofocus>
+        <input type="password" class="form-control" placeholder="Password" name="password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <br>
+        <a class="pull-right" href="{% url 'register' %}">Register</a>
+    </form>
+</div>
+
+{% endblock %}

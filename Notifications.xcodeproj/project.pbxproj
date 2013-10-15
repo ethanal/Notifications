@@ -23,6 +23,11 @@
 		AA1E36AF1808F80B00594856 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E368E1808F80B00594856 /* UIKit.framework */; };
 		AA1E36B71808F80B00594856 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA1E36B51808F80B00594856 /* InfoPlist.strings */; };
 		AA1E36B91808F80B00594856 /* NotificationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA1E36B81808F80B00594856 /* NotificationsTests.m */; };
+		AA6786D1180B327A00BA8158 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6786D0180B327A00BA8158 /* Feed.m */; };
+		AA6786E2180B477700BA8158 /* NotificationsAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6786E1180B477700BA8158 /* NotificationsAPIClient.m */; };
+		AA77318A180C585B007CD020 /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA773189180C585B007CD020 /* NotificationDetailViewController.m */; };
+		AA7E52C5180BAACF0018E55C /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7E52C4180BAACF0018E55C /* NSData+HexString.m */; };
+		AA7E52D3180BB5C40018E55C /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7E52D2180BB5C40018E55C /* Notification.m */; };
 		AAC265911809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC265901809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m */; };
 		AAC265941809BFCD009D0DF2 /* SubscribeModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC265931809BFCD009D0DF2 /* SubscribeModalViewController.m */; };
 		AAC2659F1809D05E009D0DF2 /* NotificationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC2659E1809D05E009D0DF2 /* NotificationsListViewController.m */; };
@@ -60,6 +65,18 @@
 		AA1E36B41808F80B00594856 /* NotificationsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NotificationsTests-Info.plist"; sourceTree = "<group>"; };
 		AA1E36B61808F80B00594856 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AA1E36B81808F80B00594856 /* NotificationsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationsTests.m; sourceTree = "<group>"; };
+		AA6786CF180B327A00BA8158 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		AA6786D0180B327A00BA8158 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
+		AA6786D2180B3E8300BA8158 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AA6786E0180B477700BA8158 /* NotificationsAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsAPIClient.h; sourceTree = "<group>"; };
+		AA6786E1180B477700BA8158 /* NotificationsAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsAPIClient.m; sourceTree = "<group>"; };
+		AA6786E3180B503000BA8158 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
+		AA773188180C585B007CD020 /* NotificationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDetailViewController.h; sourceTree = "<group>"; };
+		AA773189180C585B007CD020 /* NotificationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailViewController.m; sourceTree = "<group>"; };
+		AA7E52C3180BAACF0018E55C /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
+		AA7E52C4180BAACF0018E55C /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
+		AA7E52D1180BB5C40018E55C /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
+		AA7E52D2180BB5C40018E55C /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		AAC2658F1809AD13009D0DF2 /* UnreadNotificationsIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadNotificationsIndicatorView.h; sourceTree = "<group>"; };
 		AAC265901809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadNotificationsIndicatorView.m; sourceTree = "<group>"; };
 		AAC265921809BFCD009D0DF2 /* SubscribeModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribeModalViewController.h; sourceTree = "<group>"; };
@@ -118,6 +135,8 @@
 		AA1E36891808F80A00594856 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA6786E3180B503000BA8158 /* libPods-AFNetworking.a */,
+				AA6786D2180B3E8300BA8158 /* Security.framework */,
 				AA1E368A1808F80A00594856 /* Foundation.framework */,
 				AA1E368C1808F80A00594856 /* CoreGraphics.framework */,
 				AA1E368E1808F80B00594856 /* UIKit.framework */,
@@ -132,19 +151,16 @@
 			children = (
 				AA1E36991808F80B00594856 /* AppDelegate.h */,
 				AA1E369A1808F80B00594856 /* AppDelegate.m */,
+				AAC265951809C428009D0DF2 /* Config.h */,
 				AA1E369C1808F80B00594856 /* Main_iPhone.storyboard */,
 				AA1E369F1808F80B00594856 /* Main_iPad.storyboard */,
-				AA1E36A21808F80B00594856 /* FeedListViewController.h */,
-				AA1E36A31808F80B00594856 /* FeedListViewController.m */,
-				AAC2659D1809D05E009D0DF2 /* NotificationsListViewController.h */,
-				AAC2659E1809D05E009D0DF2 /* NotificationsListViewController.m */,
-				AAC265921809BFCD009D0DF2 /* SubscribeModalViewController.h */,
-				AAC265931809BFCD009D0DF2 /* SubscribeModalViewController.m */,
+				AA7E52C8180BABD10018E55C /* View Controllers */,
+				AA7E52C7180BABCC0018E55C /* Views */,
+				AA7E52C6180BABC50018E55C /* Models */,
+				AA7E52C9180BABD70018E55C /* Categories */,
+				AA7E52D0180BACC90018E55C /* Utils */,
 				AA1E36A51808F80B00594856 /* Images.xcassets */,
 				AA1E36911808F80B00594856 /* Supporting Files */,
-				AAC2658F1809AD13009D0DF2 /* UnreadNotificationsIndicatorView.h */,
-				AAC265901809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m */,
-				AAC265951809C428009D0DF2 /* Config.h */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -176,6 +192,59 @@
 				AA1E36B51808F80B00594856 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AA7E52C6180BABC50018E55C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA6786CF180B327A00BA8158 /* Feed.h */,
+				AA6786D0180B327A00BA8158 /* Feed.m */,
+				AA7E52D1180BB5C40018E55C /* Notification.h */,
+				AA7E52D2180BB5C40018E55C /* Notification.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		AA7E52C7180BABCC0018E55C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AAC2658F1809AD13009D0DF2 /* UnreadNotificationsIndicatorView.h */,
+				AAC265901809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		AA7E52C8180BABD10018E55C /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA1E36A21808F80B00594856 /* FeedListViewController.h */,
+				AA1E36A31808F80B00594856 /* FeedListViewController.m */,
+				AAC2659D1809D05E009D0DF2 /* NotificationsListViewController.h */,
+				AAC2659E1809D05E009D0DF2 /* NotificationsListViewController.m */,
+				AA773188180C585B007CD020 /* NotificationDetailViewController.h */,
+				AA773189180C585B007CD020 /* NotificationDetailViewController.m */,
+				AAC265921809BFCD009D0DF2 /* SubscribeModalViewController.h */,
+				AAC265931809BFCD009D0DF2 /* SubscribeModalViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		AA7E52C9180BABD70018E55C /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				AA7E52C3180BAACF0018E55C /* NSData+HexString.h */,
+				AA7E52C4180BAACF0018E55C /* NSData+HexString.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		AA7E52D0180BACC90018E55C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				AA6786E0180B477700BA8158 /* NotificationsAPIClient.h */,
+				AA6786E1180B477700BA8158 /* NotificationsAPIClient.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,9 +382,14 @@
 			files = (
 				AA1E36A41808F80B00594856 /* FeedListViewController.m in Sources */,
 				AAC265911809AD13009D0DF2 /* UnreadNotificationsIndicatorView.m in Sources */,
+				AA7E52D3180BB5C40018E55C /* Notification.m in Sources */,
 				AA1E369B1808F80B00594856 /* AppDelegate.m in Sources */,
 				AAC2659F1809D05E009D0DF2 /* NotificationsListViewController.m in Sources */,
+				AA77318A180C585B007CD020 /* NotificationDetailViewController.m in Sources */,
+				AA7E52C5180BAACF0018E55C /* NSData+HexString.m in Sources */,
+				AA6786D1180B327A00BA8158 /* Feed.m in Sources */,
 				AAC265941809BFCD009D0DF2 /* SubscribeModalViewController.m in Sources */,
+				AA6786E2180B477700BA8158 /* NotificationsAPIClient.m in Sources */,
 				AA1E36971808F80B00594856 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,6 +531,17 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Notifications/Notifications-Prefix.pch";
 				INFOPLIST_FILE = "Notifications/Notifications-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -471,6 +556,17 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Notifications/Notifications-Prefix.pch";
 				INFOPLIST_FILE = "Notifications/Notifications-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

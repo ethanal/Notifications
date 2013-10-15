@@ -10,8 +10,8 @@
 
 @interface UnreadNotificationsIndicatorView : UIView
 
-@property(assign) bool active;
-
 - (id)initWithFrame:(CGRect)frame status:(BOOL)status;
+
+@property (nonatomic, assign) BOOL active;
 
 @end

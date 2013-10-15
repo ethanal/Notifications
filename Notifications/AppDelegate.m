@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "NotificationsAPIClient.h"
+#import "NSData+HexString.h"
 
 @implementation AppDelegate
 
@@ -46,12 +48,8 @@
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"Device Token Sent"] == NO) {
-        // Send it
-    } else {
-        NSLog(@"Sending device token %@", deviceToken);
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Device Token Sent"];
-    }
+    
+    [NotificationsAPIClient setDeviceToken: [deviceToken hexadecimalString]];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

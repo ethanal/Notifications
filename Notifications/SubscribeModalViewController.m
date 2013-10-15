@@ -8,6 +8,8 @@
 
 #import "SubscribeModalViewController.h"
 #import "Config.h"
+#import "NotificationsAPIClient.h"
+#import "FeedListViewController.h"
 
 @interface SubscribeModalViewController ()
 
@@ -36,9 +38,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)done:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (BOOL)textField:(UITextField *) textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
@@ -54,7 +53,51 @@
 }
 
 - (IBAction)submit:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.view endEditing:YES];
+    BOOL subscribed = [[NotificationsAPIClient sharedClient] subscribeToFeedWithID:[self.feedIDField.text integerValue] verifiedByPIN:[self.pinField.text integerValue]];
+
+    if (subscribed)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"You have successfully been subscribed!"
+                                                        message:nil
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SubscribeModalDismissed"
+                                                            object:nil
+                                                          userInfo:nil];
+        
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Subscription failed"
+                                                        message:@"Check that the PIN is correct and you are connected to the internet."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
 }
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    NSInteger nextTag = textField.tag + 1;
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    
+    if (nextResponder) {
+        [nextResponder becomeFirstResponder];
+        return NO;
+    } else {
+        [textField resignFirstResponder];
+        [self submit:nil];
+        return YES;
+    }
+}
+
+- (BOOL)disablesAutomaticKeyboardDismissal
+{
+    return NO;
+}
+
 
 @end
