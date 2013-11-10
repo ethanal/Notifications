@@ -45,12 +45,13 @@ class Notification(models.Model):
 
         payload_dict = {
             "aps": {
-                "alert" : self.message
+                "alert": self.message[:(256-42)],
+                "sound": "default"
             }
         }
 
         payload = json.dumps(payload_dict)
-        print len(payload)
+
         tokens = [device.device_token for device in devices]
 
         for token in tokens:
