@@ -44,9 +44,9 @@
 
 -(void)fetchFeedWithCallback: (FetchedFeeds)callback
 {
-    
+    if (![NotificationsAPIClient deviceToken]) return;
     [self GET:@"feeds/list" parameters:@{@"device_token": [NotificationsAPIClient deviceToken]}
-      success:^(NSURLSessionDataTask *task, id responseObject) {
+      success:^(AFHTTPRequestOperation *operation , id responseObject) {
           NSMutableArray *feeds = [[NSMutableArray alloc] initWithCapacity:10];
           
           for (id feed in responseObject) {
@@ -59,7 +59,7 @@
           callback(feeds);
         
       }
-      failure:^(NSURLSessionDataTask *task, NSError *error) {
+      failure:^(AFHTTPRequestOperation *operation , NSError *error) {
           callback([NSMutableArray new]);
           NSLog(@"ERROR: %@", error);
       }];
@@ -68,8 +68,9 @@
 
 -(void)fetchNotificationsForFeed:(Feed *)feed withCallback:(FetchedNotifications)callback
 {
+    if (![NotificationsAPIClient deviceToken]) return;
     [self GET:@"notifications/list" parameters:@{@"feed": [NSNumber numberWithInteger:feed.feedID]}
-      success:^(NSURLSessionDataTask *task, id responseObject) {
+      success:^(AFHTTPRequestOperation *operation , id responseObject) {
           NSMutableArray *notifications = [[NSMutableArray alloc] initWithCapacity:10];
           
           NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -87,7 +88,7 @@
           
           callback(notifications);
       }
-      failure:^(NSURLSessionDataTask *task, NSError *error) {
+      failure:^(AFHTTPRequestOperation *operation , NSError *error) {
           callback([NSMutableArray new]);
           NSLog(@"ERROR: %@", error);
     }];
@@ -96,7 +97,7 @@
 -(void)markNotificationRead: (Notification *)notification
 {
     [self POST:[NSString stringWithFormat:@"notifications/%d/viewed", notification.notificationID] parameters:nil constructingBodyWithBlock:nil success:nil
-       failure:^(NSURLSessionDataTask *task, NSError *error) {
+       failure:^(AFHTTPRequestOperation *operation , NSError *error) {
            NSLog(@"ERROR: %@", error);
        }];
 }
@@ -104,6 +105,7 @@
 
 -(BOOL)subscribeToFeedWithID:(NSInteger)feedID verifiedByPIN:(NSInteger)pin
 {
+    if (![NotificationsAPIClient deviceToken]) return false;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@feeds/%d/subscribe", API_ENTRY_POINT, feedID]]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
@@ -131,7 +133,7 @@
 //    failure:^(NSURLSessionDataTask *task, NSError *error) {
 //        NSLog(@"ERROR: %@", error);
 //    }];
-    
+    if (![NotificationsAPIClient deviceToken]) return;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@feeds/%d/unsubscribe", API_ENTRY_POINT, feed.feedID]]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];

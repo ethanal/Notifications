@@ -30,6 +30,18 @@
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self setRefreshControl:refreshControl];
+    
+    UIColor *navColor = [UIColor colorWithRed:53.0/255.0 green:73.0/255.0 blue:94.0/255.0 alpha:1.0];
+    //set bar color
+    [self.navigationController.navigationBar setBarTintColor:navColor];
+    //optional, i don't want my bar to be translucent
+    [self.navigationController.navigationBar setTranslucent:NO];
+    //set title color
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
+    //set back button color
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], UITextAttributeTextColor,nil] forState:UIControlStateNormal];
+    //set back button arrow color
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -46,7 +58,8 @@
 - (void)loadFeedList
 {
     [[NotificationsAPIClient sharedClient] fetchFeedWithCallback:^(NSMutableArray *feeds) {
-        feedList = feeds;
+        if (feeds)
+            feedList = feeds;
         [self.tableView reloadData];
     }];
 }
@@ -54,7 +67,8 @@
 - (void)refresh:(id)sender
 {
     [[NotificationsAPIClient sharedClient] fetchFeedWithCallback:^(NSMutableArray *feeds) {
-        feedList = feeds;
+        if (feeds)
+            feedList = feeds;
         [self.tableView reloadData];
         [(UIRefreshControl *)sender endRefreshing];
     }];
@@ -67,7 +81,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+        [tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     
     static NSString *CellIdentifier = @"FeedListCell";
     

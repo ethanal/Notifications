@@ -65,6 +65,10 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+        [tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    
     int diameter = 8;
     CGRect frame = CGRectMake(3, 17, diameter, diameter);
     

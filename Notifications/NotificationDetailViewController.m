@@ -35,8 +35,10 @@
     
     self.longMessageTextView.text = self.notification.longMessage;
     
-    self.longMessageTextView.textContainerInset = UIEdgeInsetsMake(0.0f, 20.0f, 0.0f, 20.0f);
-    self.longMessageTextView.contentInset = UIEdgeInsetsMake(0.0f, -3.0f, 0.0f, 0.0f);
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        self.longMessageTextView.textContainerInset = UIEdgeInsetsMake(0.0f, 20.0f, 0.0f, 20.0f);
+        self.longMessageTextView.contentInset = UIEdgeInsetsMake(0.0f, -3.0f, 0.0f, 0.0f);
+    }
     
     [[NotificationsAPIClient sharedClient] markNotificationRead:self.notification];
     

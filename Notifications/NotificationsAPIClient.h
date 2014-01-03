@@ -13,7 +13,7 @@
 typedef void(^FetchedFeeds)(NSMutableArray *feeds);
 typedef void(^FetchedNotifications)(NSMutableArray *notifications);
 
-@interface NotificationsAPIClient : AFHTTPSessionManager
+@interface NotificationsAPIClient : AFHTTPRequestOperationManager
 
 +(instancetype)sharedClient;
 +(NSString *)deviceToken;
