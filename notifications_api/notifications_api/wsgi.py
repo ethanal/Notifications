@@ -13,6 +13,13 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
+
+try:
+    import newrelic.agent
+    newrelic.agent.initialize("newrelic.ini")
+except ImportError:
+    pass
+
 import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "notifications_api.settings")
