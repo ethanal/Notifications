@@ -17,12 +17,12 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
-urlparse.uses_netloc.append("postgres")
+urlparse.uses_netloc.append("mysql")
 url = urlparse.urlparse(DATABASE_URL)
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "django.db.backends.mysql",
         "NAME": url.path[1:],
         "USER": url.username,
         "PASSWORD": url.password,
@@ -34,7 +34,7 @@ DATABASES = {
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
 with file(os.path.join(PROJECT_ROOT, "HOSTNAME")) as f: host = f.read().strip()
-ALLOWED_HOSTS = [host]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
