@@ -1,10 +1,11 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from rest_framework import routers
+
 
 admin.autodiscover()
 
-urlpatterns = patterns("",
+urlpatterns = patterns(
+    "",
     # Examples:
     # url(r"^$", "notifications_api.views.home", name="home"),
     # url(r"^notifications_api/", include("notifications_api.foo.urls")),
@@ -17,7 +18,8 @@ urlpatterns = patterns("",
 )
 
 
-urlpatterns += patterns("notifications.views",
+urlpatterns += patterns(
+    "notifications.views",
     url(r"^$", "dashboard_view", name="dashboard"),
     url(r"^login$", "login_view", name="login"),
     url(r"^register$", "register_view", name="register"),
