@@ -192,4 +192,21 @@ def send_notification(request):
         return Response({"error": "'feed' and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(["POST"])
+@authentication_classes((authentication.TokenAuthentication,))
+@permission_classes((permissions.IsAuthenticated,))
+def send_notification(request):
+    try:
+        feed = Feed.objects.get(pk=request.DATA["feed"])
 
+        n = Notification.objects.create(feed=feed, message=request.DATA["message"], long_message=request.DATA.get("long_message", ""))
+        t = threading.Thread(target=n.send,
+                             args=[feed.devices.all()],
+                             kwargs={})
+        t.setDaemon(True)
+        t.start()
+        return Response({"success": "Notification successfully sent"})
+    except Feed.DoesNotExist:
+        return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
+    except MultiValueDictKeyError:
+        return Response({"error": "'feed' and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)

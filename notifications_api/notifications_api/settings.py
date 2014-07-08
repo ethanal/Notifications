@@ -1,12 +1,14 @@
 # Django settings for notifications_api project.
 import os
+import urlparse
+from secret import *
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LOGIN_URL = "/login"
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+DEBUG = ("DEBUG_OFF" not in os.environ)
+TEMPLATE_DEBUG = True
 
 ADMINS = (
     # ("Your Name", "your_email@example.com"),
@@ -14,17 +16,25 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+
+urlparse.uses_netloc.append("mysql")
+url = urlparse.urlparse(DATABASE_URL)
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(PROJECT_ROOT, "database.db")
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": url.path[1:],
+        "USER": url.username,
+        "PASSWORD": url.password,
+        "HOST": url.hostname
     }
 }
 
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
-with file("HOSTNAME") as f: host = f.read().strip()
-ALLOWED_HOSTS = [host]
+with file(os.path.join(PROJECT_ROOT, "HOSTNAME")) as f: host = f.read().strip()
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -83,9 +93,6 @@ STATICFILES_FINDERS = (
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 #    "django.contrib.staticfiles.finders.DefaultStorageFinder",
 )
-
-# Make this unique, and don"t share it with anybody.
-SECRET_KEY = "si=ur7!&amp;lxh%f^un(l$7bbi5ecx*mkkn^p6x6wupzuy*ekgsx2"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (

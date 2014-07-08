@@ -1,3 +1,4 @@
 *.pyc
 database.db
 *.pem
+newrelic.ini
