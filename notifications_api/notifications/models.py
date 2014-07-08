@@ -14,8 +14,9 @@ from notifications_api import settings
 class Device(models.Model):
     device_token = models.CharField(max_length=64, unique=True)
     user = models.ForeignKey(User)
+    name = models.CharField(max_length=50)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.device_token
 
 
@@ -24,13 +25,24 @@ class Feed(models.Model):
     name = models.CharField(max_length=50)
     devices = models.ManyToManyField(Device)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 
 class UserToken(models.Model):
     key = models.CharField(max_length=40, primary_key=True)
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name="user_key")
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = self.generate_key()
+        return super(UserToken, self).save(*args, **kwargs)
+
+    def generate_key(self):
+        return binascii.hexlify(os.urandom(20)).decode()
+
+    def __unicode__(self):
+        return self.key
 
 
 class Notification(models.Model):
@@ -39,8 +51,8 @@ class Notification(models.Model):
 
     feed = models.ForeignKey(Feed)
 
-    message = models.CharField(max_length=256)
-    long_message = models.TextField()
+    title = models.CharField(max_length=256)
+    message = models.TextField()
 
     # https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ProvisioningDevelopment.html#//apple_ref/doc/uid/TP40008194-CH104-SW1
     def send(self, devices):
@@ -55,7 +67,7 @@ class Notification(models.Model):
         # so (256-42) is the maximum length of the alert
         payload_dict = {
             "aps": {
-                "alert": self.message[:(256-42)],
+                "alert": self.title[:(256-42)],
                 "sound": "default"
             }
         }
@@ -73,8 +85,8 @@ class Notification(models.Model):
 
         sock.close()
 
-    def __str__(self):
-        return self.message
+    def __unicode__(self):
+        return self.title
 
 
 @receiver(models.signals.post_save, sender=User)
