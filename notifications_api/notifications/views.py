@@ -1,17 +1,18 @@
+import base64
 import threading
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
 from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
-from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from .authentication import MailgunAuthentication
-from .models import Feed, Notification, Device, UserToken
+from .models import Feed, Notification, Device
 from .forms import FeedForm
 from .serializers import FeedSerializer, NotificationSerializer
 
@@ -52,12 +53,17 @@ def dashboard_view(request, form=None, form_errors=False):
     feeds = feedset.all()
     for key, feed in enumerate(feeds):
         feeds[key].notification_count = Notification.objects.filter(feed=feed).count()
+
+    api_root_uri = request.build_absolute_uri(reverse("api_root"))
+    qr_code_contents = base64.b64encode("{} {}".format(api_root_uri, request.user.auth_token.key))
+    qr_code_url = "http://chart.apis.google.com/chart?cht=qr&chs=300x300&chld=H|0&chl=" + qr_code_contents
     return render(request, "notifications/dashboard.html", {
         "user": request.user,
         "devices": Device.objects.filter(id__in=list(set([d for d in feedset.values_list("devices", flat=True) if d is not None]))),
         "feeds": feeds,
         "feed_form": form or FeedForm(),
-        "form_errors": form_errors
+        "form_errors": form_errors,
+        "qr_code_url": qr_code_url
     })
 
 
