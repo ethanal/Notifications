@@ -10,10 +10,17 @@ class FeedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Feed
-        fields = ("id", "name", "has_unread")
+        fields = ("id",
+                  "name",
+                  "has_unread")
 
 
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ("id", "sent_date", "viewed", "feed", "message", "long_message")
+        fields = ("id",
+                  "sent_date",
+                  "viewed",
+                  "feed",
+                  "message",
+                  "long_message")

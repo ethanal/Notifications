@@ -25,10 +25,10 @@ if DEBUG:
         }
     }
 else:
-    from secret import * 
+    from secret import *
     urlparse.uses_netloc.append("mysql")
     url = urlparse.urlparse(DATABASE_URL)
-    
+
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
@@ -39,10 +39,10 @@ else:
         }
     }
 
-
     # Hosts/domain names that are valid for this site; required if DEBUG is False
     # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
-    with file(os.path.join(PROJECT_ROOT, "HOSTNAME")) as f: host = f.read().strip()
+    with file(os.path.join(PROJECT_ROOT, "HOSTNAME")) as f:
+        host = f.read().strip()
     ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Local time zone for this installation. Choices can be found here:
@@ -140,9 +140,6 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
-    # Uncomment the next line to enable admin documentation:
-    # "django.contrib.admindocs",
-
     "rest_framework",
     "rest_framework.authtoken",
     "notifications"
@@ -151,7 +148,11 @@ INSTALLED_APPS = (
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
     )
 }
 

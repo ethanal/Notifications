@@ -10,20 +10,27 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from notifications_api import settings
 
+
 class Device(models.Model):
-    device_token = models.CharField(max_length=64)
+    device_token = models.CharField(max_length=64, unique=True)
+    user = models.ForeignKey(User)
 
     def __str__(self):
         return self.device_token
 
+
 class Feed(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=50)
-    pin = models.PositiveIntegerField()
     devices = models.ManyToManyField(Device)
 
     def __str__(self):
         return self.name
+
+
+class UserToken(Token):
+    pass
+
 
 class Notification(models.Model):
     sent_date = models.DateTimeField(auto_now_add=True)
@@ -43,6 +50,8 @@ class Notification(models.Model):
         sock = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_SSLv3, certfile=cert)
         sock.connect(apns_server)
 
+        # 42 is length of the dict without the contents of the alert,
+        # so (256-42) is the maximum length of the alert
         payload_dict = {
             "aps": {
                 "alert": self.message[:(256-42)],
@@ -52,9 +61,9 @@ class Notification(models.Model):
 
         payload = json.dumps(payload_dict)
 
-        tokens = [device.device_token for device in devices]
+        device_tokens = [device.device_token for device in devices]
 
-        for token in tokens:
+        for token in device_tokens:
             token = binascii.unhexlify(token)
             fmt = "!cH32sH{0:d}s".format(len(payload))
             cmd = '\x00'
@@ -68,6 +77,7 @@ class Notification(models.Model):
 
 
 @receiver(models.signals.post_save, sender=User)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
+def create_tokens(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+        UserToken.objects.create(user=instance)

@@ -11,12 +11,12 @@ from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import authentication, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.generics import UpdateAPIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from .authentication import MailgunAuthentication
 from .models import Feed, Notification, Device
 from .forms import FeedForm
 from .serializers import FeedSerializer, NotificationSerializer
+
 
 def login_view(request):
     if request.method == "POST":
@@ -33,18 +33,20 @@ def login_view(request):
     else:
         return render(request, "notifications/login.html", {})
 
+
 def register_view(request):
     context = {}
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             return render(request, "notifications/login.html", {"message": "Your account has been created."})
         else:
             context["message"] = "Form invalid"
     else:
         form = UserCreationForm()
     return render(request, "notifications/register.html", context)
+
 
 @login_required(redirect_field_name=None)
 def dashboard_view(request, form=None, form_errors=False):
@@ -98,8 +100,6 @@ def delete_feed(request, pk):
 
 
 @api_view(["GET"])
-@authentication_classes((authentication.TokenAuthentication,))
-@permission_classes((permissions.IsAdminUser,))
 def list_feeds(request):
     try:
         feeds = Device.objects.get(device_token=request.GET["device_token"]).feed_set.all()
@@ -110,8 +110,6 @@ def list_feeds(request):
 
 
 @api_view(["POST"])
-@authentication_classes((authentication.TokenAuthentication,))
-@permission_classes((permissions.IsAdminUser,))
 def subscribe_to_feed(request, feed):
     try:
         feed = Feed.objects.get(pk=feed)
@@ -121,7 +119,6 @@ def subscribe_to_feed(request, feed):
         except ValueError:
             return Response({"error": "Invalid PIN"}, status=status.HTTP_400_BAD_REQUEST)
 
-
         device, created = Device.objects.get_or_create(device_token=request.DATA["device_token"])
         feed.devices.add(device)
         return Response({"success": "Device successfully subscribed to feed"}, status=status.HTTP_201_CREATED)
@@ -130,9 +127,8 @@ def subscribe_to_feed(request, feed):
     except MultiValueDictKeyError:
         return Response({"error": "'device_token' and 'pin' header must be specified"}, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(["POST"])
-@authentication_classes((authentication.TokenAuthentication,))
-@permission_classes((permissions.IsAdminUser,))
 def unsubscribe_from_feed(request, feed):
     try:
         feed = Feed.objects.get(pk=feed)
@@ -149,8 +145,6 @@ def unsubscribe_from_feed(request, feed):
 
 
 @api_view(["GET"])
-@authentication_classes((authentication.TokenAuthentication,))
-@permission_classes((permissions.IsAdminUser,))
 def list_notifications(request):
     try:
         notifications = Notification.objects.filter(feed__pk=request.GET["feed"]).order_by("-sent_date")
@@ -160,8 +154,6 @@ def list_notifications(request):
 
 
 @api_view(["POST"])
-@authentication_classes((authentication.TokenAuthentication,))
-@permission_classes((permissions.IsAdminUser,))
 def set_viewed(request, pk, format=None):
     try:
         n = Notification.objects.get(pk=pk)
@@ -173,8 +165,6 @@ def set_viewed(request, pk, format=None):
 
 
 @api_view(["POST"])
-@authentication_classes((authentication.TokenAuthentication,))
-@permission_classes((permissions.IsAuthenticated,))
 def send_notification(request):
     try:
         feed = Feed.objects.get(pk=request.DATA["feed"])
@@ -193,9 +183,8 @@ def send_notification(request):
 
 
 @api_view(["POST"])
-@authentication_classes((authentication.TokenAuthentication,))
-@permission_classes((permissions.IsAuthenticated,))
-def send_notification(request):
+@authentication_classes((MailgunAuthentication,))
+def send_notification_from_mailgun(request):
     try:
         feed = Feed.objects.get(pk=request.DATA["feed"])
 
