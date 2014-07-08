@@ -1,0 +1,9 @@
+{% extends "rest_framework/base.html" %}
+
+{% block title %}
+Notifications API - {{request.path}}
+{% endblock %}
+
+ {% block branding %}
+ <a class="brand" href="{% url 'api_root' %}">Notifications API</a>
+ {% endblock %}
