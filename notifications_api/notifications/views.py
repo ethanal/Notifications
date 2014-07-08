@@ -1,16 +1,15 @@
 from random import randint
 import threading
-from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.shortcuts import render
 from django.utils.datastructures import MultiValueDictKeyError
-from rest_framework import authentication, permissions, status
+from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from .authentication import MailgunAuthentication
 from .models import Feed, Notification, Device
