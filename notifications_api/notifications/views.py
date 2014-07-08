@@ -1,4 +1,3 @@
-from random import randint
 import threading
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -12,7 +11,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.response import Response
 from .authentication import MailgunAuthentication
-from .models import Feed, Notification, Device
+from .models import Feed, Notification, Device, UserToken
 from .forms import FeedForm
 from .serializers import FeedSerializer, NotificationSerializer
 
@@ -55,6 +54,7 @@ def dashboard_view(request, form=None, form_errors=False):
         feeds[key].notification_count = Notification.objects.filter(feed=feed).count()
     return render(request, "notifications/dashboard.html", {
         "user": request.user,
+        "user_key": UserToken.objects.get(user=request.user).key,
         "api_key": Token.objects.get(user=request.user.pk).key,
         "devices": Device.objects.filter(id__in=list(set([d for d in feedset.values_list("devices", flat=True) if d is not None]))),
         "feeds": feeds,
@@ -73,7 +73,6 @@ def create_feed(request):
     if request.method == "POST":
         data = request.POST.copy()
         data["user"] = request.user.pk
-        data["pin"] = randint(100000, 999999)
         form = FeedForm(data)
         if form.is_valid():
             form.save()
@@ -100,11 +99,10 @@ def delete_feed(request, pk):
 
 @api_view(["GET"])
 def list_feeds(request):
-    try:
-        feeds = Device.objects.get(device_token=request.GET["device_token"]).feed_set.all()
-    except MultiValueDictKeyError:
-        print "hi"
-        return Response({"error": "'device_token' parameter must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+    feeds = Feed.objects.filter(user=request.user)
+    if "device_token" in request.GET:
+        feeds = feeds.filter(devices__device_token=request.GET["device_token"])
+
     return Response(FeedSerializer(feeds, many=True).data)
 
 
