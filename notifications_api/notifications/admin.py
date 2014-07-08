@@ -1,14 +1,26 @@
 from django.contrib import admin
-from .models import Feed, Notification, Device
+from rest_framework.authtoken.admin import TokenAdmin
+from .models import Device, Feed, UserToken, Notification
+
+
+class DeviceAdmin(admin.ModelAdmin):
+    list_display = ["device_token", "user", "feed_set"]
+
+admin.site.register(Device, DeviceAdmin)
 
 
 class FeedAdmin(admin.ModelAdmin):
     list_display = ["id",
                     "user",
-                    "name",
-                    "pin"]
+                    "name"]
 
 admin.site.register(Feed, FeedAdmin)
+
+
+class UserTokenAdmin(TokenAdmin):
+    pass
+
+admin.site.register(UserToken, UserTokenAdmin)
 
 
 class NotificationAdmin(admin.ModelAdmin):
@@ -20,10 +32,3 @@ class NotificationAdmin(admin.ModelAdmin):
                     "long_message"]
 
 admin.site.register(Notification, NotificationAdmin)
-
-
-class DeviceAdmin(admin.ModelAdmin):
-    list_display = ["id",
-                    "device_token"]
-
-admin.site.register(Device, DeviceAdmin)
