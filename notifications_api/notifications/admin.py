@@ -1,32 +1,32 @@
 from django.contrib import admin
-from rest_framework.authtoken.admin import TokenAdmin
 from .models import Device, Feed, UserToken, Notification
 
 
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ["device_token", "user"]
+    list_display = ("device_token", "user")
 
 admin.site.register(Device, DeviceAdmin)
 
 
 class FeedAdmin(admin.ModelAdmin):
-    list_display = ["id", "user", "name"]
+    list_display = ("id", "user", "name")
 
 admin.site.register(Feed, FeedAdmin)
 
 
 class UserTokenAdmin(admin.ModelAdmin):
-    list_display = ["key", "user"]
+    list_display = ("key", "user")
+    fields = ("user",)
 
 admin.site.register(UserToken, UserTokenAdmin)
 
 
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ["id",
+    list_display = ("id",
                     "sent_date",
                     "viewed",
                     "feed",
-                    "message",
-                    "long_message"]
+                    "title",
+                    "message")
 
 admin.site.register(Notification, NotificationAdmin)
