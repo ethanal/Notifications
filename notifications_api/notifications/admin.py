@@ -4,21 +4,19 @@ from .models import Device, Feed, UserToken, Notification
 
 
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ["device_token", "user", "feed_set"]
+    list_display = ["device_token", "user"]
 
 admin.site.register(Device, DeviceAdmin)
 
 
 class FeedAdmin(admin.ModelAdmin):
-    list_display = ["id",
-                    "user",
-                    "name"]
+    list_display = ["id", "user", "name"]
 
 admin.site.register(Feed, FeedAdmin)
 
 
-class UserTokenAdmin(TokenAdmin):
-    pass
+class UserTokenAdmin(admin.ModelAdmin):
+    list_display = ["key", "user"]
 
 admin.site.register(UserToken, UserTokenAdmin)
 

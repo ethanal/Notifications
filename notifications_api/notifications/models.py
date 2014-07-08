@@ -28,8 +28,9 @@ class Feed(models.Model):
         return self.name
 
 
-class UserToken(Token):
-    pass
+class UserToken(models.Model):
+    key = models.CharField(max_length=40, primary_key=True)
+    user = models.OneToOneField(User)
 
 
 class Notification(models.Model):
