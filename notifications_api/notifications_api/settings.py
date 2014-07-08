@@ -1,13 +1,13 @@
 # Django settings for notifications_api project.
 import os
 import urlparse
-from secret import *
+
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LOGIN_URL = "/login"
 
-DEBUG = ("DEBUG_OFF" not in os.environ)
+DEBUG = ("PRODUCTION" not in os.environ)
 TEMPLATE_DEBUG = True
 
 ADMINS = (
@@ -16,25 +16,34 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-
-urlparse.uses_netloc.append("mysql")
-url = urlparse.urlparse(DATABASE_URL)
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": url.path[1:],
-        "USER": url.username,
-        "PASSWORD": url.password,
-        "HOST": url.hostname
+if DEBUG:
+    SECRET_KEY = "vjbub57veqw!1#q#-w5z4^v^(kw0%m345qjx5jgd)n8n#xx=4w"
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(PROJECT_ROOT, "db.sqlite3")
+        }
     }
-}
+else:
+    from secret import * 
+    urlparse.uses_netloc.append("mysql")
+    url = urlparse.urlparse(DATABASE_URL)
+    
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": url.path[1:],
+            "USER": url.username,
+            "PASSWORD": url.password,
+            "HOST": url.hostname
+        }
+    }
 
 
-# Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
-with file(os.path.join(PROJECT_ROOT, "HOSTNAME")) as f: host = f.read().strip()
-ALLOWED_HOSTS = ["127.0.0.1"]
+    # Hosts/domain names that are valid for this site; required if DEBUG is False
+    # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
+    with file(os.path.join(PROJECT_ROOT, "HOSTNAME")) as f: host = f.read().strip()
+    ALLOWED_HOSTS = ["127.0.0.1"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
