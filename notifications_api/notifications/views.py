@@ -66,6 +66,16 @@ def logout_view(request):
     return HttpResponseRedirect("/")
 
 
+@api_view(["GET"])
+def api_root(request):
+    """Welcome to the Notifications API!
+
+    Documentation can be found at [github.com/ethanal/Notifications](https://github.com/ethanal/Notifications)
+    """
+
+    return Response("Documentation can be found at github.com/ethanal/Notifications")
+
+
 @login_required
 def create_feed(request):
     if request.method == "POST":
