@@ -109,7 +109,7 @@ def list_feeds(request):
 @api_view(["POST"])
 def subscribe_to_feed(request, feed):
     try:
-        feed = Feed.objects.get(pk=feed)
+        feed = Feed.objects.get(pk=feed, user=request.user)
         try:
             if int(request.DATA["pin"]) != feed.pin:
                 return Response({"error": "Invalid PIN"}, status=status.HTTP_403_FORBIDDEN)
@@ -151,7 +151,7 @@ def list_notifications(request):
 
 
 @api_view(["POST"])
-def set_viewed(request, pk, format=None):
+def set_viewed(request, pk):
     try:
         n = Notification.objects.get(pk=pk)
         n.viewed = True
@@ -159,6 +159,16 @@ def set_viewed(request, pk, format=None):
         return Response({"success": "Notification marked as viewed"})
     except Notification.DoesNotExist:
         return Response({"error": "Notification does not exist"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(["POST"])
+def mark_feed_as_viewed(request, pk):
+    try:
+        feed = Feed.objects.get(pk=pk, user=request.user)
+        feed.notification_set.update(viewed=True)
+        return Response({"success": "Feed marked as viewed"})
+    except Feed.DoesNotExist:
+        return Response({"error": "Feed does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(["POST"])
