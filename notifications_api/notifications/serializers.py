@@ -22,5 +22,5 @@ class NotificationSerializer(serializers.ModelSerializer):
                   "sent_date",
                   "viewed",
                   "feed",
-                  "message",
-                  "long_message")
+                  "title",
+                  "message")

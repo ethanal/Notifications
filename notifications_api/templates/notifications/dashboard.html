@@ -12,25 +12,58 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Notifications Dashboard</a>
+            <a class="navbar-brand" href="{% url 'dashboard' %}">Notifications Dashboard</a>
         </div>
         <div class="collapse navbar-collapse pull-right">
             <ul class="nav navbar-nav">
-                <li><a href="/logout">Logout</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </div>
     </div>
 </div>
 
 <div class="container">
-    <div class="starter-template">
-        <div class="margin-flush row">
+    <div class="row">
+        <div class="col-lg-4">
+            <h3>Your User Key</h3>
+            <input type="text" value="{{ user.user_key }}" class="form-control centered">
             <h3>Your API Key</h3>
-            <div class="col-lg-4">
-                <input type="text" value="{{ api_key }}" class="form-control centered">
+            <input type="text" value="{{ user.auth_token }}" class="form-control centered">
+        </div>
+        <div class="col-lg-4">
+            <h3>Send Notification</h3>
+
+            <div class="form-group">
+                <label for="feed">Feed</label>
+                <select name="feed" class="form-control">
+                    {% for feed in feeds %}
+                        <option value="{{ feed.pk }}">{{ feed.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
+
+            <div class="form-group">
+                <label for="message">Title</label>
+                <input type="text" name="title" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control" rows="3" name="message"></textarea>
+            </div>
+
+            <button class="btn btn-primary">Send</button>
+
         </div>
 
+        <div class="col-lg-4">
+            <h3>Device Registration</h3>
+            <p>Scan this QR code using the Notifications app to register the device to your account.</p>
+            <img src="http://chart.apis.google.com/chart?cht=qr&chs=300x300&chld=H|0&chl={{ user.auth_token }}" alt="QR Code" class="well col-lg-12">
+        </div>
+    </div>
+
+    <div class="row">
         <h3>Your Devices</h3>
         <table class="table table-hover table-condensed">
             <thead>
@@ -62,18 +95,14 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
 
+    <div class="row">
         <h3>Your Feeds</h3>
         <table class="table table-hover table-condensed">
             <thead>
                 <th>
-                    Feed ID
-                </th>
-                <th>
                     Feed Name
-                </th>
-                <th>
-                    PIN
                 </th>
                 <th>
                     Notification Count
@@ -85,29 +114,25 @@
                 {% for feed in feeds %}
                     <tr>
                         <td>
-                            {{ feed.pk }}
-                        </td>
-                        <td>
                             {{ feed.name }}
-                        </td>
-                        <td>
-                            {{ feed.pin }}
                         </td>
                         <td>
                             {{ feed.notification_count }}
                         </td>
                         <td>
-                            <form action="/deletefeed/{{ feed.pk }}" method="post">
+                            <form action="{% url 'delete_feed' feed.pk %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-xs">Delete Feed</button>
+                                <button type="submit" class="btn btn-danger btn-xs pull-right">Delete Feed</button>
                             </form>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+    </div>
 
-        <form class="form-inline" action="/createfeed" method="post">
+    <div class="row">
+        <form class="form-inline" action="{% url 'create_feed' %}" method="post">
             {% csrf_token %}
             <h4>Create Feed</h4>
             <div class="form-group{% if form_errors %} has-error{% endif %}">

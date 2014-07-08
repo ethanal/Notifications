@@ -5,7 +5,7 @@
 
 {% block body %}
 <div class="container">
-    <form class="form-user-pass" action="/register" method="post">
+    <form class="form-user-pass" action="{% url 'register' %}" method="post">
         {% csrf_token %}
         <h2 class="form-user-pass-heading">Create an account</h2>
         {% if message %}

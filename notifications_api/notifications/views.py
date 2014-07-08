@@ -54,8 +54,6 @@ def dashboard_view(request, form=None, form_errors=False):
         feeds[key].notification_count = Notification.objects.filter(feed=feed).count()
     return render(request, "notifications/dashboard.html", {
         "user": request.user,
-        "user_key": UserToken.objects.get(user=request.user).key,
-        "api_key": Token.objects.get(user=request.user.pk).key,
         "devices": Device.objects.filter(id__in=list(set([d for d in feedset.values_list("devices", flat=True) if d is not None]))),
         "feeds": feeds,
         "feed_form": form or FeedForm(),
@@ -176,7 +174,7 @@ def send_notification(request):
     try:
         feed = Feed.objects.get(pk=request.DATA["feed"], user=request.user)
 
-        n = Notification.objects.create(feed=feed, message=request.DATA["message"], long_message=request.DATA.get("long_message", ""))
+        n = Notification.objects.create(feed=feed, title=request.DATA["title"], message=request.DATA["message"])
         t = threading.Thread(target=n.send,
                              args=[feed.devices.all()],
                              kwargs={})
@@ -186,7 +184,7 @@ def send_notification(request):
     except Feed.DoesNotExist:
         return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
     except MultiValueDictKeyError:
-        return Response({"error": "'feed' and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "'feed', 'title', and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
