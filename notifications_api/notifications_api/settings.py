@@ -140,9 +140,10 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "south",
     "rest_framework",
     "rest_framework.authtoken",
-    "notifications"
+    "notifications",
 )
 
 
