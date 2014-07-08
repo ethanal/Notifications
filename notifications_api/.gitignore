@@ -1,4 +1,5 @@
 *.pyc
-database.db
+db.sqlite3
 *.pem
 newrelic.ini
+
