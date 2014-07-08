@@ -84,10 +84,10 @@ def create_feed(request):
 
 
 @login_required
-def delete_feed(request, pk):
+def delete_feed(request, feed):
     if request.method == "POST":
         try:
-            feed = Feed.objects.get(pk=pk)
+            feed = Feed.objects.get(pk=feed)
             Notification.objects.filter(feed=feed).delete()
             feed.delete()
         except Feed.DoesNotExist:
@@ -110,25 +110,21 @@ def list_feeds(request):
 def subscribe_to_feed(request, feed):
     try:
         feed = Feed.objects.get(pk=feed, user=request.user)
-        try:
-            if int(request.DATA["pin"]) != feed.pin:
-                return Response({"error": "Invalid PIN"}, status=status.HTTP_403_FORBIDDEN)
-        except ValueError:
-            return Response({"error": "Invalid PIN"}, status=status.HTTP_400_BAD_REQUEST)
-
-        device, created = Device.objects.get_or_create(device_token=request.DATA["device_token"])
+        device = Device.objects.get(device_token=request.DATA["device_token"], user=request.user)
         feed.devices.add(device)
         return Response({"success": "Device successfully subscribed to feed"}, status=status.HTTP_201_CREATED)
     except Feed.DoesNotExist:
         return Response({"error": "Feed does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    except Device.DoesNotExist:
+        return Response({"error": "Device with specified 'device_token' does not exist"}, status=status.HTTP_404_NOT_FOUND)
     except MultiValueDictKeyError:
-        return Response({"error": "'device_token' and 'pin' header must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "'device_token' field must be specified"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])
 def unsubscribe_from_feed(request, feed):
     try:
-        feed = Feed.objects.get(pk=feed)
+        feed = Feed.objects.get(pk=feed, user=request.user)
         device = Device.objects.get(device_token=request.DATA["device_token"])
 
         feed.devices.remove(device)
@@ -142,18 +138,22 @@ def unsubscribe_from_feed(request, feed):
 
 
 @api_view(["GET"])
-def list_notifications(request):
+def list_notifications(request, feed):
+    if feed.user != request.user:
+        return Response({"error": "'Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
     try:
-        notifications = Notification.objects.filter(feed__pk=request.GET["feed"]).order_by("-sent_date")
+        notifications = Notification.objects.filter(feed=feed).order_by("-sent_date")
     except KeyError:
         return Response({"error": "'feed' parameter must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+
     return Response(NotificationSerializer(notifications, many=True).data)
 
 
 @api_view(["POST"])
-def set_viewed(request, pk):
+def mark_viewed(request, notification):
     try:
-        n = Notification.objects.get(pk=pk)
+        n = Notification.objects.get(pk=notification, user=request.user)
         n.viewed = True
         n.save()
         return Response({"success": "Notification marked as viewed"})
@@ -162,11 +162,11 @@ def set_viewed(request, pk):
 
 
 @api_view(["POST"])
-def mark_feed_as_viewed(request, pk):
+def mark_all_viewed(request, feed):
     try:
-        feed = Feed.objects.get(pk=pk, user=request.user)
+        feed = Feed.objects.get(pk=feed, user=request.user)
         feed.notification_set.update(viewed=True)
-        return Response({"success": "Feed marked as viewed"})
+        return Response({"success": "All notifications in feed marked as viewed"})
     except Feed.DoesNotExist:
         return Response({"error": "Feed does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -174,7 +174,7 @@ def mark_feed_as_viewed(request, pk):
 @api_view(["POST"])
 def send_notification(request):
     try:
-        feed = Feed.objects.get(pk=request.DATA["feed"])
+        feed = Feed.objects.get(pk=request.DATA["feed"], user=request.user)
 
         n = Notification.objects.create(feed=feed, message=request.DATA["message"], long_message=request.DATA.get("long_message", ""))
         t = threading.Thread(target=n.send,
@@ -192,17 +192,18 @@ def send_notification(request):
 @api_view(["POST"])
 @authentication_classes((MailgunAuthentication,))
 def send_notification_from_mailgun(request):
-    try:
-        feed = Feed.objects.get(pk=request.DATA["feed"])
+    return Response({"success": "Sent notification from email."})
+    # try:
+    #     feed = Feed.objects.get(pk=request.DATA["feed"])
 
-        n = Notification.objects.create(feed=feed, message=request.DATA["message"], long_message=request.DATA.get("long_message", ""))
-        t = threading.Thread(target=n.send,
-                             args=[feed.devices.all()],
-                             kwargs={})
-        t.setDaemon(True)
-        t.start()
-        return Response({"success": "Notification successfully sent"})
-    except Feed.DoesNotExist:
-        return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
-    except MultiValueDictKeyError:
-        return Response({"error": "'feed' and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+    #     n = Notification.objects.create(feed=feed, message=request.DATA["message"], long_message=request.DATA.get("long_message", ""))
+    #     t = threading.Thread(target=n.send,
+    #                          args=[feed.devices.all()],
+    #                          kwargs={})
+    #     t.setDaemon(True)
+    #     t.start()
+    #     return Response({"success": "Notification successfully sent"})
+    # except Feed.DoesNotExist:
+    #     return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
+    # except MultiValueDictKeyError:
+    #     return Response({"error": "'feed' and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)
