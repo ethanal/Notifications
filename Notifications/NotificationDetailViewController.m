@@ -33,12 +33,10 @@
     [dateFormatter setDateFormat:@"'Sent' dd MMM, yyyy 'at' h:mm:ss a"];
     self.sentDateLabel.text = [dateFormatter stringFromDate:self.notification.sentDate];
     
-    self.longMessageTextView.text = self.notification.longMessage;
     
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        self.longMessageTextView.textContainerInset = UIEdgeInsetsMake(0.0f, 20.0f, 0.0f, 20.0f);
-        self.longMessageTextView.contentInset = UIEdgeInsetsMake(0.0f, -3.0f, 0.0f, 0.0f);
-    }
+    self.longMessageTextView.textContainer.lineFragmentPadding = 0;
+    self.longMessageTextView.textContainerInset = UIEdgeInsetsZero;
+    self.longMessageTextView.text = self.notification.longMessage;
     
     [[NotificationsAPIClient sharedClient] markNotificationRead:self.notification];
     

@@ -11,6 +11,7 @@
 #import "UnreadNotificationsIndicatorView.h"
 #import "NotificationsAPIClient.h"
 #import "Feed.h"
+#import "Config.h"
 #import <AFNetworking.h>
 
 @interface FeedListViewController ()
@@ -32,9 +33,7 @@
     [self setRefreshControl:refreshControl];
     
     UIColor *navColor = [UIColor colorWithRed:53.0/255.0 green:73.0/255.0 blue:94.0/255.0 alpha:1.0];
-    //set bar color
     [self.navigationController.navigationBar setBarTintColor:navColor];
-    //optional, i don't want my bar to be translucent
     [self.navigationController.navigationBar setTranslucent:NO];
     //set title color
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:UITextAttributeTextColor]];
@@ -81,9 +80,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
-        [tableView setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-    
     static NSString *CellIdentifier = @"FeedListCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -110,6 +106,12 @@
     cell.textLabel.text = category;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.textLabel.backgroundColor = [UIColor greenColor];
+    cell.contentView.backgroundColor = [UIColor yellowColor];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -45,6 +45,8 @@
 -(void)fetchFeedWithCallback: (FetchedFeeds)callback
 {
     if (![NotificationsAPIClient deviceToken]) return;
+    
+    
     [self GET:@"feeds/list" parameters:@{@"device_token": [NotificationsAPIClient deviceToken]}
       success:^(AFHTTPRequestOperation *operation , id responseObject) {
           NSMutableArray *feeds = [[NSMutableArray alloc] initWithCapacity:10];
@@ -62,6 +64,7 @@
       failure:^(AFHTTPRequestOperation *operation , NSError *error) {
           callback([NSMutableArray new]);
           NSLog(@"ERROR: %@", error);
+          NSLog(@"%@", operation.responseString);
       }];
 }
 
@@ -74,15 +77,14 @@
           NSMutableArray *notifications = [[NSMutableArray alloc] initWithCapacity:10];
           
           NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-          [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
+          [dateFormat setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
           
           for (id notification in responseObject) {
-              NSDate *date = [dateFormat dateFromString:[notification objectForKey:@"sent_date"]];
               [notifications addObject:[[Notification alloc] initWithNotificationID:[[notification objectForKey:@"id"] integerValue]
                                                                              feedID:feed.feedID
                                                                             message:[notification objectForKey:@"message"]
                                                                         longMessage:[notification objectForKey:@"long_message"]
-                                                                           sentDate:date
+                                                                           sentDate:[dateFormat dateFromString:[notification objectForKey:@"sent_date"]]
                                                                                read:[[notification objectForKey:@"viewed"] boolValue]]];
           }
           

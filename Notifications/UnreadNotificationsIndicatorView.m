@@ -38,6 +38,8 @@
     if (self.active) {
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGContextClearRect(ctx, rect);
+//        CGContextSetFillColor(ctx, CGColorGetComponents([[UIColor colorWithRed:0.00 green:1.00 blue:0.00 alpha:1] CGColor]));
+//        CGContextFillRect(ctx, rect);
         CGContextAddEllipseInRect(ctx, rect);
         CGContextSetFillColor(ctx, CGColorGetComponents([[UIColor colorWithRed:0.11 green:0.47 blue:0.97 alpha:1] CGColor]));
         CGContextFillPath(ctx);
