@@ -174,6 +174,16 @@ def mark_all_viewed(request, feed):
 @api_view(["POST"])
 def send_notification(request):
     try:
+        data = {
+            "feed": request.DATA.get("feed", None),
+            "title": request.DATA.get("title", None),
+            "message": request.DATA.get("message", None)
+        }
+
+        serializer = NotificationSerializer(data=data)
+        if not serializer.is_valid():
+            return Response({"error": "All fields are required", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
         feed = Feed.objects.get(pk=request.DATA["feed"], user=request.user)
 
         n = Notification.objects.create(feed=feed, title=request.DATA["title"], message=request.DATA["message"])
@@ -185,8 +195,6 @@ def send_notification(request):
         return Response({"success": "Notification successfully sent"})
     except Feed.DoesNotExist:
         return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
-    except MultiValueDictKeyError:
-        return Response({"error": "'feed', 'title', and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["POST"])

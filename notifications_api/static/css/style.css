@@ -55,3 +55,15 @@ body {
 .centered {
     text-align: center
 }
+
+#send-notification-submit {
+    margin-right: 10px;
+}
+
+#send-notification-response {
+    color: green;
+}
+
+.error {
+    color: red !important;
+}

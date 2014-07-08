@@ -1,7 +1,12 @@
 {% extends "notifications/base.html" %}
+{% load staticfiles %}
 
 {% block title %}{{ block.super }}: Dashboard{% endblock %}
 
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}
 
 {% block body %}
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -31,28 +36,35 @@
             <input type="text" value="{{ user.auth_token }}" class="form-control centered">
         </div>
         <div class="col-lg-4">
-            <h3>Send Notification</h3>
+            <form id="send-notification" data-target="{% url 'send_notification' %}">
+                <h3>Send Notification</h3>
+                {% csrf_token %}
 
-            <div class="form-group">
-                <label for="feed">Feed</label>
-                <select name="feed" class="form-control">
-                    {% for feed in feeds %}
-                        <option value="{{ feed.pk }}">{{ feed.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
+                <div class="form-group">
+                    <label for="feed">Feed</label>
+                    <select name="feed" class="form-control">
+                        {% for feed in feeds %}
+                            <option value="{{ feed.pk }}">{{ feed.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-            <div class="form-group">
-                <label for="message">Title</label>
-                <input type="text" name="title" class="form-control">
-            </div>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="form-control">
+                </div>
 
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea class="form-control" rows="3" name="message"></textarea>
-            </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" rows="3" name="message"></textarea>
+                </div>
 
-            <button class="btn btn-primary">Send</button>
+
+                <span>
+                    <button id="send-notification-submit" class="btn btn-primary">Send</button>
+                    <span id="send-notification-response" class="error"></span>
+                </span>
+            </form>
 
         </div>
 
