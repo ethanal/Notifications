@@ -77,70 +77,78 @@
 
     <div class="row">
         <h3>Your Devices</h3>
-        <table class="table table-hover table-condensed">
-            <thead>
-                <th>
-                    Device ID
-                </th>
-                <th>
-                    APN Device Token
-                </th>
-                <th>
-                    Feed Subscriptions
-                </th>
-            </thead>
-            <tbody>
-                {% for device in devices %}
-                    <tr>
-                        <td>
-                            {{ device.pk }}
-                        </td>
-                        <td>
-                            {{ device.device_token }}
-                        </td>
-                        <td>
-                            {% for feed in device.feed_set.all %}
-                                <span class="label label-info">{{ feed.pk }}: {{ feed.name }}</span>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        {% if devices %}
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <th>
+                        Device Name
+                    </th>
+                    <th>
+                        APN Device Token
+                    </th>
+                    <th>
+                        Feed Subscriptions
+                    </th>
+                </thead>
+                <tbody>
+                    {% for device in devices %}
+                        <tr>
+                            <td>
+                                {{ device.name }}
+                            </td>
+                            <td>
+                                {{ device.device_token }}
+                            </td>
+                            <td>
+                                {% for feed in device.feed_set.all %}
+                                    <span class="label label-info">{{ feed.pk }}: {{ feed.name }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            No devices yet. Add one using the QR code above.
+        {% endif %}
     </div>
 
     <div class="row">
         <h3>Your Feeds</h3>
-        <table class="table table-hover table-condensed">
-            <thead>
-                <th>
-                    Feed Name
-                </th>
-                <th>
-                    Notification Count
-                </th>
-                <th></th>
-            </thead>
+        {% if feeds %}
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <th>
+                        Feed Name
+                    </th>
+                    <th>
+                        Notification Count
+                    </th>
+                    <th></th>
+                </thead>
 
-            <tbody>
-                {% for feed in feeds %}
-                    <tr>
-                        <td>
-                            {{ feed.name }}
-                        </td>
-                        <td>
-                            {{ feed.notification_count }}
-                        </td>
-                        <td>
-                            <form action="{% url 'delete_feed' feed.pk %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-xs pull-right">Delete Feed</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                <tbody>
+                    {% for feed in feeds %}
+                        <tr>
+                            <td>
+                                {{ feed.name }}
+                            </td>
+                            <td>
+                                {{ feed.notification_count }}
+                            </td>
+                            <td>
+                                <form action="{% url 'delete_feed' feed.pk %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-xs pull-right">Delete Feed</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            No feeds yet. Add one below.
+        {% endif %}
     </div>
 
     <div class="row">
