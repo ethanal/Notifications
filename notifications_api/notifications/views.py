@@ -137,7 +137,9 @@ def unsubscribe_from_feed(request, feed):
 
 @api_view(["GET"])
 def list_notifications(request, feed):
-    if feed.user != request.user:
+    try:
+        feed = Feed.objects.get(pk=feed, user=request.user)
+    except Feed.DoesNotExist:
         return Response({"error": "'Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
 
     try:
