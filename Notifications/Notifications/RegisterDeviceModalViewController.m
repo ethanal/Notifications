@@ -17,7 +17,7 @@
 @property (assign) BOOL foundQRCode;
 @property (nonatomic, strong) UILabel *apiRootLabel;
 @property (nonatomic, strong) UILabel *apiKeyLabel;
-@property (nonatomic, strong) UIButton *addDeviceButton;
+@property (nonatomic, strong) UIButton *registerDeviceButton;
 
 @end
 
@@ -27,7 +27,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissModal:)];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModal:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     self.title = @"Register Device";
     
@@ -129,12 +129,12 @@
     
     
     // Add submit button
-    self.addDeviceButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.addDeviceButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.addDeviceButton setTitle:@"Add Device" forState:UIControlStateNormal];
-    [self.addDeviceButton addTarget:self action:@selector(addDevice:) forControlEvents:UIControlEventTouchUpInside];
-    self.addDeviceButton.enabled = NO;
-    [self.feedbackView addSubview:self.addDeviceButton];
+    self.registerDeviceButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.registerDeviceButton.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.registerDeviceButton setTitle:@"Add Device" forState:UIControlStateNormal];
+    [self.registerDeviceButton addTarget:self action:@selector(registerDevice:) forControlEvents:UIControlEventTouchUpInside];
+    self.registerDeviceButton.enabled = NO;
+    [self.feedbackView addSubview:self.registerDeviceButton];
     
     
     NSDictionary *feedbackViews = @{
@@ -143,7 +143,7 @@
         @"apiKeyTitle": apiKeyTitleLabel,
         @"apiRoot": self.apiRootLabel,
         @"apiKey": self.apiKeyLabel,
-        @"addDevice": self.addDeviceButton
+        @"registerDevice": self.registerDeviceButton
     };
     
     [self.feedbackView addConstraints:[NSLayoutConstraint
@@ -153,7 +153,7 @@
                                        views:feedbackViews]];
     
     [self.feedbackView addConstraints:[NSLayoutConstraint
-                                       constraintsWithVisualFormat:@"V:[addDevice]-(10)-|"
+                                       constraintsWithVisualFormat:@"V:[registerDevice]-(10)-|"
                                        options:0
                                        metrics:nil
                                        views:feedbackViews]];
@@ -184,7 +184,7 @@
                                        options:0
                                        metrics:nil
                                        views:feedbackViews]];
-    [self.feedbackView addConstraint:[NSLayoutConstraint constraintWithItem:self.addDeviceButton
+    [self.feedbackView addConstraint:[NSLayoutConstraint constraintWithItem:self.registerDeviceButton
                                                                   attribute:NSLayoutAttributeCenterX
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.feedbackView
@@ -216,7 +216,7 @@
             if (([NSURL URLWithString:apiRoot] != nil) && [apiKey length] > 0) {
                 self.apiRootLabel.text = apiRoot;
                 self.apiKeyLabel.text = apiKey;
-                self.addDeviceButton.enabled = YES;
+                self.registerDeviceButton.enabled = YES;
             } else {
                 self.invalidQRAlert = [[UIAlertView alloc] initWithTitle:@"Invalid QR Code"
                                                                  message:nil
@@ -240,7 +240,7 @@
     }
 }
 
-- (void)addDevice:(id)sender {
+- (void)registerDevice:(id)sender {
     NSLog(@"Added device");
     [self dismissModal:nil];
 }

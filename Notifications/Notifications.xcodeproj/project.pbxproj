@@ -10,7 +10,6 @@
 		2C52FAA12D0C4F209E7974F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB7CC7966F44C22900C03D5 /* libPods.a */; };
 		AA8BF78A196CA12F00570724 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF789196CA12F00570724 /* main.m */; };
 		AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF78C196CA12F00570724 /* AppDelegate.m */; };
-		AA8BF790196CA12F00570724 /* Notifications.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF78E196CA12F00570724 /* Notifications.xcdatamodeld */; };
 		AA8BF798196CA12F00570724 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA8BF797196CA12F00570724 /* Images.xcassets */; };
 		AA8BF7A4196CA12F00570724 /* NotificationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF7A3196CA12F00570724 /* NotificationsTests.m */; };
 		AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */; };
@@ -36,7 +35,6 @@
 		AA8BF789196CA12F00570724 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AA8BF78B196CA12F00570724 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		AA8BF78C196CA12F00570724 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		AA8BF78F196CA12F00570724 /* Notifications.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Notifications.xcdatamodel; sourceTree = "<group>"; };
 		AA8BF797196CA12F00570724 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		AA8BF79D196CA12F00570724 /* NotificationsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NotificationsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA8BF7A2196CA12F00570724 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -110,7 +108,6 @@
 				AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */,
 				AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */,
 				AA8BF797196CA12F00570724 /* Images.xcassets */,
-				AA8BF78E196CA12F00570724 /* Notifications.xcdatamodeld */,
 				AA8BF787196CA12F00570724 /* Supporting Files */,
 			);
 			path = Notifications;
@@ -277,7 +274,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACC93E4196CC658004EC101 /* UnreadIndicatorView.m in Sources */,
-				AA8BF790196CA12F00570724 /* Notifications.xcdatamodeld in Sources */,
 				AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */,
 				AACC93E7196CCAD0004EC101 /* RegisterDeviceModalViewController.m in Sources */,
 				AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */,
@@ -511,19 +507,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		AA8BF78E196CA12F00570724 /* Notifications.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				AA8BF78F196CA12F00570724 /* Notifications.xcdatamodel */,
-			);
-			currentVersion = AA8BF78F196CA12F00570724 /* Notifications.xcdatamodel */;
-			path = Notifications.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = AA8BF77C196CA12F00570724 /* Project object */;
 }

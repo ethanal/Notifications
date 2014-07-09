@@ -9,6 +9,7 @@
 #import "FeedListViewController.h"
 #import "RegisterDeviceModalViewController.h"
 #import "UnreadIndicatorView.h"
+#import <TSMessage.h>
 
 @interface FeedListViewController ()
 
@@ -28,7 +29,7 @@
     [self setRefreshControl:refreshControl];
     
     // Set up navigation bar buttons
-    UIBarButtonItem *subscribeToFeedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(subscribeToFeedButtonPressed:)];
+    UIBarButtonItem *subscribeToFeedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(subscribeToFeedButtonPressed:)];
     self.navigationItem.rightBarButtonItem = subscribeToFeedButton;
     
     
@@ -54,8 +55,6 @@
     UINavigationController *modalNavigationController = [[UINavigationController alloc] initWithRootViewController:modal];
     [modal setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
     [self.navigationController presentViewController:modalNavigationController animated:YES completion:nil];
-    
-    
 }
 
 
