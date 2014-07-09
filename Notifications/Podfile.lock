@@ -3,16 +3,19 @@ PODS:
   - Mantle (1.5):
     - Mantle/extobjc
   - Mantle/extobjc (1.5)
+  - MTBBarcodeScanner (0.1.5)
   - TSMessages (0.9.9):
     - HexColors
 
 DEPENDENCIES:
   - Mantle
+  - MTBBarcodeScanner
   - TSMessages
 
 SPEC CHECKSUMS:
   HexColors: 01384d2bbe8dc4ffa43c3b4135db6e976952d153
   Mantle: c67a7e45e14196ed42b2a7cbb98ff6a9920e6b92
+  MTBBarcodeScanner: 35fab4b361ec9b8416f9e7a53423c4963ea915d7
   TSMessages: 2999ef55e532378692e9d14d32da2bb60e285129
 
 COCOAPODS: 0.33.1

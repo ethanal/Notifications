@@ -33,7 +33,7 @@
     [[UINavigationBar appearance] setTitleTextAttributes:@{
         NSForegroundColorAttributeName: [UIColor whiteColor],
     }];
-    
+
     UIColor *navColor = [UIColor colorWithRed:57.0/255.0 green:72.0/255.0 blue:95.0/255.0 alpha:1.0];
     [[UINavigationBar appearance] setBarTintColor:navColor];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];

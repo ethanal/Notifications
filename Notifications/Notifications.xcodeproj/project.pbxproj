@@ -15,6 +15,7 @@
 		AA8BF7A4196CA12F00570724 /* NotificationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF7A3196CA12F00570724 /* NotificationsTests.m */; };
 		AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */; };
 		AACC93E4196CC658004EC101 /* UnreadIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */; };
+		AACC93E7196CCAD0004EC101 /* RegisterDeviceModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC93E6196CCAD0004EC101 /* RegisterDeviceModalViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,9 @@
 		AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedListViewController.m; sourceTree = "<group>"; };
 		AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadIndicatorView.h; sourceTree = "<group>"; };
 		AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadIndicatorView.m; sourceTree = "<group>"; };
+		AACC93E5196CCAD0004EC101 /* RegisterDeviceModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterDeviceModalViewController.h; sourceTree = "<group>"; };
+		AACC93E6196CCAD0004EC101 /* RegisterDeviceModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterDeviceModalViewController.m; sourceTree = "<group>"; };
+		AACC93EB196CDA44004EC101 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,7 @@
 		1629DF18FA094349B9FFE4D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AACC93EB196CDA44004EC101 /* Reveal.framework */,
 				6AB7CC7966F44C22900C03D5 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -100,6 +105,8 @@
 				AA8BF78C196CA12F00570724 /* AppDelegate.m */,
 				AA8BF7AD196CA2FD00570724 /* FeedListViewController.h */,
 				AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */,
+				AACC93E5196CCAD0004EC101 /* RegisterDeviceModalViewController.h */,
+				AACC93E6196CCAD0004EC101 /* RegisterDeviceModalViewController.m */,
 				AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */,
 				AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */,
 				AA8BF797196CA12F00570724 /* Images.xcassets */,
@@ -186,6 +193,7 @@
 				TargetAttributes = {
 					AA8BF783196CA12F00570724 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = A4G5B63BQX;
 					};
 					AA8BF79C196CA12F00570724 = {
 						CreatedOnToolsVersion = 6.0;
@@ -271,6 +279,7 @@
 				AACC93E4196CC658004EC101 /* UnreadIndicatorView.m in Sources */,
 				AA8BF790196CA12F00570724 /* Notifications.xcdatamodeld in Sources */,
 				AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */,
+				AACC93E7196CCAD0004EC101 /* RegisterDeviceModalViewController.m in Sources */,
 				AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */,
 				AA8BF78A196CA12F00570724 /* main.m in Sources */,
 			);
@@ -377,10 +386,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Notifications/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					AVFoundation,
+					"-framework",
+					Foundation,
+					"-framework",
+					QuartzCore,
+					"-ObjC",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -391,10 +419,29 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Notifications/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					AVFoundation,
+					"-framework",
+					Foundation,
+					"-framework",
+					QuartzCore,
+					"-ObjC",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

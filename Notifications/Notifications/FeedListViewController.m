@@ -7,6 +7,7 @@
 //
 
 #import "FeedListViewController.h"
+#import "RegisterDeviceModalViewController.h"
 #import "UnreadIndicatorView.h"
 
 @interface FeedListViewController ()
@@ -49,6 +50,11 @@
 
 - (void)subscribeToFeedButtonPressed:(id)sender {
     NSLog(@"Subscribing to feed");
+    RegisterDeviceModalViewController *modal = [[RegisterDeviceModalViewController alloc] init];
+    UINavigationController *modalNavigationController = [[UINavigationController alloc] initWithRootViewController:modal];
+    [modal setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self.navigationController presentViewController:modalNavigationController animated:YES completion:nil];
+    
     
 }
 
