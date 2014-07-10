@@ -1,14 +1,15 @@
 //
-//  RegisterDeviceModalViewController.m
+//  RegisterDeviceViewController.m
 //  Notifications
 //
 //  Created by Ethan Lowman on 7/8/14.
 //  Copyright (c) 2014 Ethan Lowman. All rights reserved.
 //
 
-#import "RegisterDeviceModalViewController.h"
+#import "RegisterDeviceViewController.h"
 #import "MTBBarcodeScanner.h"
-@interface RegisterDeviceModalViewController ()
+
+@interface RegisterDeviceViewController ()
 
 @property (nonatomic, strong) UIView *cameraView;
 @property (nonatomic, strong) UIView *feedbackView;
@@ -21,14 +22,12 @@
 
 @end
 
-@implementation RegisterDeviceModalViewController
+@implementation RegisterDeviceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModal:)];
-    self.navigationItem.rightBarButtonItem = doneButton;
     self.title = @"Register Device";
     
     [self setupViews];
@@ -132,8 +131,8 @@
     self.registerDeviceButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.registerDeviceButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.registerDeviceButton setTitle:@"Add Device" forState:UIControlStateNormal];
-    [self.registerDeviceButton addTarget:self action:@selector(registerDevice:) forControlEvents:UIControlEventTouchUpInside];
     self.registerDeviceButton.enabled = NO;
+    [self.registerDeviceButton addTarget:self action:@selector(registerDevice:) forControlEvents:UIControlEventTouchUpInside];
     [self.feedbackView addSubview:self.registerDeviceButton];
     
     
@@ -242,7 +241,7 @@
 
 - (void)registerDevice:(id)sender {
     NSLog(@"Added device");
-    [self dismissModal:nil];
+    [self dismissViewController:nil];
 }
 
 
@@ -251,9 +250,9 @@
 }
 
 
-- (void)dismissModal:(id)sender {
+- (void)dismissViewController:(id)sender {
     [self.scanner stopScanning];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

@@ -10,8 +10,8 @@
 
 @interface UnreadIndicatorView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame status:(BOOL)status;
-
 @property (nonatomic, assign) BOOL status;
+
+- (instancetype)initWithFrame:(CGRect)frame status:(BOOL)status;
 
 @end

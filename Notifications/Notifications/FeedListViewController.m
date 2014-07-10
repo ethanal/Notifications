@@ -7,17 +7,18 @@
 //
 
 #import "FeedListViewController.h"
-#import "RegisterDeviceModalViewController.h"
+#import "NotificationListViewController.h"
+#import "SettingsViewController.h"
 #import "UnreadIndicatorView.h"
 #import <TSMessage.h>
 
 @interface FeedListViewController ()
 
+@property (nonatomic, strong) NSMutableArray *feeds;
+
 @end
 
-@implementation FeedListViewController {
-    NSMutableArray *feeds;
-}
+@implementation FeedListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,37 +30,35 @@
     [self setRefreshControl:refreshControl];
     
     // Set up navigation bar buttons
-    UIBarButtonItem *subscribeToFeedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(subscribeToFeedButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = subscribeToFeedButton;
-    
+    UIBarButtonItem *settingsBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"GearIcon"]style:UIBarButtonItemStylePlain target:self action:@selector(settingsBarButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = settingsBarButton;
+    UIBarButtonItem *addFeedBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFeedBarButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = addFeedBarButton;
     
     self.title = @"Feeds";
     
-    feeds = [[NSMutableArray alloc] initWithObjects:@"Feed 1", @"Feed 2", @"Feed 3", @"Feed 4", nil];
+    self.feeds = [[NSMutableArray alloc] initWithObjects:@"Feed 1", @"Feed 2", @"Feed 3", @"Feed 4", nil];
 }
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
-
-
 
 - (void)refresh:(id)sender {
-    NSLog(@"refreshing");
     [(UIRefreshControl *)sender endRefreshing];
 }
 
-- (void)subscribeToFeedButtonPressed:(id)sender {
-    NSLog(@"Subscribing to feed");
-    RegisterDeviceModalViewController *modal = [[RegisterDeviceModalViewController alloc] init];
-    UINavigationController *modalNavigationController = [[UINavigationController alloc] initWithRootViewController:modal];
-    [modal setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-    [self.navigationController presentViewController:modalNavigationController animated:YES completion:nil];
+- (void)settingsBarButtonPressed:(id)sender {
+    SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [settingsVC setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    UINavigationController *settingsNavVC = [[UINavigationController alloc] initWithRootViewController:settingsVC];
+    [self.navigationController presentViewController:settingsNavVC animated:YES completion:nil];
+}
+
+
+- (void)addFeedBarButtonPressed:(id)sender {
+    
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [feeds count];
+    return [self.feeds count];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -82,14 +81,21 @@
         ((UnreadIndicatorView *)indicatorView).status = hasUnread;
     } else {
         UnreadIndicatorView *indicator = [[UnreadIndicatorView alloc] initWithFrame:frame status:hasUnread];
-        
-//        indicator.tag = 1;
         [cell.contentView addSubview:indicator];
+        indicatorView.tag = 1;
+        
     }
     
-    cell.textLabel.text = [feeds objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.feeds objectAtIndex:indexPath.row];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NotificationListViewController *notifListVC = [[NotificationListViewController alloc] init];
+    [self.navigationController pushViewController:notifListVC animated:YES];
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

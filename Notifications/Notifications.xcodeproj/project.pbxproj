@@ -8,13 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		2C52FAA12D0C4F209E7974F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB7CC7966F44C22900C03D5 /* libPods.a */; };
+		AA8A7D43196DE78800C2F9D1 /* NotificationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */; };
 		AA8BF78A196CA12F00570724 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF789196CA12F00570724 /* main.m */; };
 		AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF78C196CA12F00570724 /* AppDelegate.m */; };
 		AA8BF798196CA12F00570724 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA8BF797196CA12F00570724 /* Images.xcassets */; };
 		AA8BF7A4196CA12F00570724 /* NotificationsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF7A3196CA12F00570724 /* NotificationsTests.m */; };
 		AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */; };
+		AAB306EB196E101B007DC4FE /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB306E9196E101B007DC4FE /* SettingsViewController.m */; };
 		AACC93E4196CC658004EC101 /* UnreadIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */; };
-		AACC93E7196CCAD0004EC101 /* RegisterDeviceModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC93E6196CCAD0004EC101 /* RegisterDeviceModalViewController.m */; };
+		AACC93E7196CCAD0004EC101 /* RegisterDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AACC93E6196CCAD0004EC101 /* RegisterDeviceViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		217468DBD5B04D4480A0862F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		6AB7CC7966F44C22900C03D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA8A7D41196DE78800C2F9D1 /* NotificationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationListViewController.h; sourceTree = "<group>"; };
+		AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationListViewController.m; sourceTree = "<group>"; };
 		AA8BF784196CA12F00570724 /* Notifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA8BF788196CA12F00570724 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA8BF789196CA12F00570724 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -40,11 +44,13 @@
 		AA8BF7A2196CA12F00570724 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA8BF7A3196CA12F00570724 /* NotificationsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationsTests.m; sourceTree = "<group>"; };
 		AA8BF7AD196CA2FD00570724 /* FeedListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedListViewController.h; sourceTree = "<group>"; };
-		AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedListViewController.m; sourceTree = "<group>"; };
+		AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FeedListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AAB306E9196E101B007DC4FE /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		AAB306EA196E101B007DC4FE /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadIndicatorView.h; sourceTree = "<group>"; };
 		AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadIndicatorView.m; sourceTree = "<group>"; };
-		AACC93E5196CCAD0004EC101 /* RegisterDeviceModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterDeviceModalViewController.h; sourceTree = "<group>"; };
-		AACC93E6196CCAD0004EC101 /* RegisterDeviceModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterDeviceModalViewController.m; sourceTree = "<group>"; };
+		AACC93E5196CCAD0004EC101 /* RegisterDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RegisterDeviceViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		AACC93E6196CCAD0004EC101 /* RegisterDeviceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RegisterDeviceViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AACC93EB196CDA44004EC101 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,12 +107,16 @@
 			children = (
 				AA8BF78B196CA12F00570724 /* AppDelegate.h */,
 				AA8BF78C196CA12F00570724 /* AppDelegate.m */,
-				AA8BF7AD196CA2FD00570724 /* FeedListViewController.h */,
-				AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */,
-				AACC93E5196CCAD0004EC101 /* RegisterDeviceModalViewController.h */,
-				AACC93E6196CCAD0004EC101 /* RegisterDeviceModalViewController.m */,
 				AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */,
 				AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */,
+				AA8BF7AD196CA2FD00570724 /* FeedListViewController.h */,
+				AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */,
+				AA8A7D41196DE78800C2F9D1 /* NotificationListViewController.h */,
+				AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */,
+				AAB306EA196E101B007DC4FE /* SettingsViewController.h */,
+				AAB306E9196E101B007DC4FE /* SettingsViewController.m */,
+				AACC93E5196CCAD0004EC101 /* RegisterDeviceViewController.h */,
+				AACC93E6196CCAD0004EC101 /* RegisterDeviceViewController.m */,
 				AA8BF797196CA12F00570724 /* Images.xcassets */,
 				AA8BF787196CA12F00570724 /* Supporting Files */,
 			);
@@ -273,9 +283,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8A7D43196DE78800C2F9D1 /* NotificationListViewController.m in Sources */,
 				AACC93E4196CC658004EC101 /* UnreadIndicatorView.m in Sources */,
+				AAB306EB196E101B007DC4FE /* SettingsViewController.m in Sources */,
 				AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */,
-				AACC93E7196CCAD0004EC101 /* RegisterDeviceModalViewController.m in Sources */,
+				AACC93E7196CCAD0004EC101 /* RegisterDeviceViewController.m in Sources */,
 				AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */,
 				AA8BF78A196CA12F00570724 /* main.m in Sources */,
 			);

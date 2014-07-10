@@ -1,5 +1,5 @@
 //
-//  RegisterDeviceModalViewController.h
+//  RegisterDeviceViewController.h
 //  Notifications
 //
 //  Created by Ethan Lowman on 7/8/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RegisterDeviceModalViewController : UIViewController <UIAlertViewDelegate>
+@interface RegisterDeviceViewController : UIViewController <UIAlertViewDelegate>
 
 @end
