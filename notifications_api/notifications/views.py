@@ -1,4 +1,5 @@
 import base64
+import re
 import threading
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -273,11 +274,13 @@ def send_notification_from_mailgun(request):
     prefix, key, feed = request.POST.get("recipient").split("_")
     feed = feed.split("@")[0]
 
+    message = request.POST.get("body-plain", None)
+    message = re.sub(r"\n +", "\n", message).strip()
+
     data = {
         "feed": feed,
         "title": request.POST.get("subject", None),
-        "message": request.POST.get("body-plain", None)
-
+        "message": message
     }
 
     return _send_notification(request.user, data, error_status=status.HTTP_406_NOT_ACCEPTABLE)
