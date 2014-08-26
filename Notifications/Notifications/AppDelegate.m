@@ -11,6 +11,15 @@
 #import <TSMessage.h>
 #import "NSData+HexString.h"
 #import "APIClient.h"
+#import "NotificationListViewController.h"
+#import "NotificationDetailViewController.h"
+
+@interface AppDelegate ()
+
+@property (nonatomic, assign) NSInteger apnFeedID;
+@property (nonatomic, assign) NSInteger apnNotificationID;
+
+@end
 
 
 @implementation AppDelegate
@@ -18,9 +27,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    UITableViewController *tableViewController = [[FeedListViewController alloc] init];
-    UINavigationController *tableViewNavigationController = [[UINavigationController alloc] initWithRootViewController:tableViewController];
-    self.window.rootViewController = tableViewNavigationController;
+    UITableViewController *feedlistVC = [[FeedListViewController alloc] init];
+    UINavigationController *feedlistNavVC = [[UINavigationController alloc] initWithRootViewController:feedlistVC];
+    self.window.rootViewController = feedlistNavVC;
     [self.window makeKeyAndVisible];
 
     
@@ -54,6 +63,14 @@
         #pragma clang diagnostic pop
     }
     
+    NSDictionary *apnPayload = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    if(apnPayload) {
+        NSInteger feedID = [apnPayload[@"aps"][@"feed"] intValue];
+        NSInteger notificationID = [apnPayload[@"aps"][@"notification"] intValue];
+        [self jumpToNotificationID:(NSInteger)notificationID inFeedID:(NSInteger)feedID];
+    }
+    
     return YES;
 }
 
@@ -65,27 +82,52 @@
     NSLog(@"Failed to get token, error: %@", error);
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSDictionary *apnPayload = userInfo[@"aps"];
+    self.apnFeedID = [apnPayload[@"feed"] intValue];
+    self.apnNotificationID = [apnPayload[@"notification"] intValue];
+    NSLog(@"%d", application.applicationState);
+    if (application.applicationState == UIApplicationStateActive) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:apnPayload[@"feed_name"]
+                                                        message:apnPayload[@"alert"]
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Show", nil];
+        [alert show];
+    } else {
+        [self jumpToNotificationID:(NSInteger)self.apnNotificationID inFeedID:(NSInteger)self.apnFeedID];
+    }
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+- (void)jumpToNotificationID:(NSInteger)notificationID inFeedID:(NSInteger)feedID {
+    NotificationListViewController *notifListVC = [NotificationListViewController new];
+    notifListVC.feedID = feedID;
+    NotificationDetailViewController *notifDetailVC = [NotificationDetailViewController new];
+    [[APIClient sharedClient] fetchNotificationWithID:notificationID withCallback:^(Notification *notification) {
+        notifDetailVC.notification = notification;
+        UINavigationController *rootVC = (UINavigationController *)self.window.rootViewController;
+        
+        if (rootVC.presentedViewController) {
+            [rootVC dismissViewControllerAnimated:NO completion:^{
+                [rootVC popToRootViewControllerAnimated:NO];
+                [rootVC pushViewController:notifListVC animated:NO];
+                [rootVC pushViewController:notifDetailVC animated:YES];
+            }];
+        } else {
+            [rootVC popToRootViewControllerAnimated:NO];
+            [rootVC pushViewController:notifListVC animated:NO];
+            [rootVC pushViewController:notifDetailVC animated:YES];
+        }
+        
+        
+    }];
+    
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    // Saves changes in the application's managed object context before the application terminates.
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self jumpToNotificationID:(NSInteger)self.apnNotificationID inFeedID:(NSInteger)self.apnFeedID];
+    }
 }
 
 @end

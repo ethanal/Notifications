@@ -14,6 +14,7 @@
 		AA7AAAFA19AC22C40093547A /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAF919AC22C40093547A /* Notification.m */; };
 		AA7AAAFD19AC3DE20093547A /* NotificationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAFC19AC3DE20093547A /* NotificationDetailViewController.m */; };
 		AA7AAB0019AC5D670093547A /* CellWithUnreadIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAFF19AC5D670093547A /* CellWithUnreadIndicator.m */; };
+		AA7AAB0319AC6C940093547A /* SubscribeToFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAB0219AC6C940093547A /* SubscribeToFeedViewController.m */; };
 		AA8A7D43196DE78800C2F9D1 /* NotificationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */; };
 		AA8BF78A196CA12F00570724 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF789196CA12F00570724 /* main.m */; };
 		AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF78C196CA12F00570724 /* AppDelegate.m */; };
@@ -50,6 +51,8 @@
 		AA7AAAFC19AC3DE20093547A /* NotificationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDetailViewController.m; sourceTree = "<group>"; };
 		AA7AAAFE19AC5D670093547A /* CellWithUnreadIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellWithUnreadIndicator.h; sourceTree = "<group>"; };
 		AA7AAAFF19AC5D670093547A /* CellWithUnreadIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellWithUnreadIndicator.m; sourceTree = "<group>"; };
+		AA7AAB0119AC6C940093547A /* SubscribeToFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribeToFeedViewController.h; sourceTree = "<group>"; };
+		AA7AAB0219AC6C940093547A /* SubscribeToFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribeToFeedViewController.m; sourceTree = "<group>"; };
 		AA8A7D41196DE78800C2F9D1 /* NotificationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationListViewController.h; sourceTree = "<group>"; };
 		AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationListViewController.m; sourceTree = "<group>"; };
 		AA8BF784196CA12F00570724 /* Notifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +141,8 @@
 				AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */,
 				AA7AAAFB19AC3DE20093547A /* NotificationDetailViewController.h */,
 				AA7AAAFC19AC3DE20093547A /* NotificationDetailViewController.m */,
+				AA7AAB0119AC6C940093547A /* SubscribeToFeedViewController.h */,
+				AA7AAB0219AC6C940093547A /* SubscribeToFeedViewController.m */,
 				AAB306EA196E101B007DC4FE /* SettingsViewController.h */,
 				AAB306E9196E101B007DC4FE /* SettingsViewController.m */,
 				AACC93E5196CCAD0004EC101 /* RegisterDeviceViewController.h */,
@@ -363,6 +368,7 @@
 				AA7AAAFD19AC3DE20093547A /* NotificationDetailViewController.m in Sources */,
 				AA7AAAF119AC1E1F0093547A /* APIClient.m in Sources */,
 				AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */,
+				AA7AAB0319AC6C940093547A /* SubscribeToFeedViewController.m in Sources */,
 				AA8BF78A196CA12F00570724 /* main.m in Sources */,
 				AA7AAAEB19ABD7470093547A /* NSData+HexString.m in Sources */,
 				AA7AAAEE19AC0ABE0093547A /* NotificationFeed.m in Sources */,

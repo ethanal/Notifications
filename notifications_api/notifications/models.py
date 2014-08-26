@@ -51,10 +51,9 @@ class Notification(models.Model):
 
     feed = models.ForeignKey(Feed)
 
-    title = models.CharField(max_length=256)
+    title = models.CharField(max_length=500)
     message = models.TextField()
 
-    # https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ProvisioningDevelopment.html#//apple_ref/doc/uid/TP40008194-CH104-SW1
     def send(self, devices):
         cert = os.path.join(settings.PROJECT_ROOT, "Notifications.pem")
         apns_server = ("gateway.sandbox.push.apple.com", 2195)
@@ -63,19 +62,20 @@ class Notification(models.Model):
         sock = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_SSLv3, certfile=cert)
         sock.connect(apns_server)
 
-        # 42 is length of the dict without the contents of the alert,
-        # so (256-42) is the maximum length of the alert
         payload_dict = {
             "aps": {
-                "alert": self.title[:(256-42)],
-                "sound": "default"
+                "alert": self.title,
+                "sound": "default",
+                "feed_name": self.feed.name,
+                "feed": self.feed.id,
+                "notification": self.id
             }
         }
 
         payload = json.dumps(payload_dict)
 
         device_tokens = [device.device_token for device in devices]
-        print device_tokens
+
         for token in device_tokens:
             token = binascii.unhexlify(token)
             fmt = "!cH32sH{0:d}s".format(len(payload))

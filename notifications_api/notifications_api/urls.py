@@ -34,6 +34,7 @@ urlpatterns += patterns(
     url(r"^api/feeds/(?P<feed>\d+)/unsubscribe", "unsubscribe_from_feed", name="unsubscribe_from_feed"),
     url(r"^api/feeds/(?P<feed>\d+)/notifications/list$", "list_notifications", name="list_notifications"),
     url(r"^api/feeds/(?P<feed>\d+)/notifications/mark_viewed", "mark_all_viewed", name="mark_all_viewed"),
+    url(r"^api/notifications/(?P<pk>\d+)$", "get_notification", name="get_notification"),
     url(r"^api/notifications/(?P<pk>\d+)/mark_viewed$", "mark_viewed", name="mark_viewed"),
     url(r"^api/notifications/send$", "send_notification", name="send_notification"),
     url(r"^api/notifications/mailgun_send$", "send_notification_from_mailgun", name="send_notification_from_mailgun"),

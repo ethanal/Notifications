@@ -10,6 +10,6 @@
 #import "NotificationFeed.h"
 @interface NotificationListViewController : UITableViewController
 
-@property (nonatomic, strong) NotificationFeed *feed;
+@property (nonatomic, assign) NSInteger feedID;
 
 @end

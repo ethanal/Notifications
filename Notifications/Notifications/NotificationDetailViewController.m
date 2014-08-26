@@ -7,6 +7,7 @@
 //
 
 #import "NotificationDetailViewController.h"
+#import "APIClient.h"
 
 @interface NotificationDetailViewController ()
 
@@ -21,6 +22,8 @@
 - (void)viewDidLoad {
     self.title = @"Notification";
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    [[APIClient sharedClient] markNotificationRead:self.notification];
     
     self.titleLabel = [UILabel new];
     self.titleLabel.font = [self.titleLabel.font fontWithSize:20.0f];
@@ -58,10 +61,10 @@
                               };
     
     [self.view addConstraints:[NSLayoutConstraint
-                                       constraintsWithVisualFormat:@"V:|-(margin)-[titleLabel]-(innerMargin)-[sentDateLabel]-(innerMargin)-[messageTextView]|"
-                                       options:0
-                                       metrics:metrics
-                                       views:views]];
+                               constraintsWithVisualFormat:@"V:|-(margin)-[titleLabel]-(innerMargin)-[sentDateLabel]-(innerMargin)-[messageTextView]|"
+                               options:0
+                               metrics:metrics
+                               views:views]];
     [self.view addConstraints:[NSLayoutConstraint
                                constraintsWithVisualFormat:@"H:|-(margin)-[titleLabel]-(margin)-|"
                                options:0

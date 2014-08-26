@@ -23,7 +23,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = self.feed.name;
     self.view.backgroundColor = [UIColor whiteColor];
     
     // Set up refresh mechanism
@@ -34,19 +33,21 @@
     // Set up navigation bar buttons
     UIBarButtonItem *markAllReadButton = [[UIBarButtonItem alloc] initWithTitle:@"Mark All Read" style:UIBarButtonItemStylePlain target:self action:@selector(markAllRead:)];
     self.navigationItem.rightBarButtonItem = markAllReadButton;
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [self loadNotifications];
 }
 
 - (void)loadNotifications {
-    [[APIClient sharedClient] fetchNotificationsForFeedWithID:[self.feed.id intValue] withCallback:^(NSMutableArray *notifications) {
+    [[APIClient sharedClient] fetchNotificationsForFeedWithID:self.feedID withCallback:^(NSMutableArray *notifications) {
         self.notifications = notifications;
         [self.tableView reloadData];
     }];
 }
 
 - (void)refresh:(id)sender {
-    [[APIClient sharedClient] fetchNotificationsForFeedWithID:[self.feed.id intValue] withCallback:^(NSMutableArray *notifications) {
+    [[APIClient sharedClient] fetchNotificationsForFeedWithID:self.feedID withCallback:^(NSMutableArray *notifications) {
         self.notifications = notifications;
         [self.tableView reloadData];
         [(UIRefreshControl *)sender endRefreshing];
@@ -54,7 +55,7 @@
 }
 
 - (void)markAllRead:(id)sender {
-    [[APIClient sharedClient] markFeedRead:self.feed];
+    [[APIClient sharedClient] markFeedWithIDRead:self.feedID];
     for (id notification in self.notifications) {
         ((Notification *) notification).viewed = YES;
     }

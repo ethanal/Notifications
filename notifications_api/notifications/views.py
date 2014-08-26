@@ -187,10 +187,20 @@ def list_notifications(request, feed):
     return Response(NotificationSerializer(notifications, many=True).data)
 
 
-@api_view(["POST"])
-def mark_viewed(request, notification):
+@api_view(["GET"])
+def get_notification(request, pk):
     try:
-        n = Notification.objects.get(pk=notification, user=request.user)
+        notification = Notification.objects.get(pk=pk, feed__user=request.user)
+    except Notification.DoesNotExist:
+        return Response({"error": "Notification does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+    return Response(NotificationSerializer(notification).data)
+
+
+@api_view(["POST"])
+def mark_viewed(request, pk):
+    try:
+        n = Notification.objects.get(pk=pk, feed__user=request.user)
         n.viewed = True
         n.save()
         return Response({"success": "Notification marked as viewed"})

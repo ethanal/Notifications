@@ -27,8 +27,7 @@ static NSString *APIToken;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         APIRoot = [[[NSUserDefaults standardUserDefaults] objectForKey:@"APIRoot"] stringByAppendingString:@"/"];
-        APIToken = [SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"];
-        
+        APIToken = [@"Token " stringByAppendingString:[SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"]];
         __instance = [[APIClient alloc] initWithBaseURL:[NSURL URLWithString:APIRoot]];
     });
     
@@ -38,7 +37,7 @@ static NSString *APIToken;
 - (id) initWithBaseURL:(NSURL *)url {
     self = [super initWithBaseURL:url];
     if (self) {
-        [self.requestSerializer setValue:[@"Token " stringByAppendingString:APIToken] forHTTPHeaderField:@"Authorization"];
+        [self.requestSerializer setValue:APIToken forHTTPHeaderField:@"Authorization"];
     }
     return self;
 }
@@ -109,7 +108,6 @@ static NSString *APIToken;
 
 
 - (void)fetchNotificationsForFeedWithID:(NSInteger)feedID withCallback:(FetchedNotifications)callback {
-    if (![APIClient deviceToken]) return;
     [self GET:[NSString stringWithFormat:@"feeds/%d/notifications/list", feedID] parameters:@{}
       success:^(AFHTTPRequestOperation *operation , id responseObject) {
           NSMutableArray *notifications = [[NSMutableArray alloc] initWithCapacity:10];
@@ -126,6 +124,17 @@ static NSString *APIToken;
       }];
 }
 
+- (void)fetchNotificationWithID:(NSInteger)feedID withCallback:(FetchedNotification)callback {
+    [self GET:[NSString stringWithFormat:@"notifications/%d", feedID] parameters:@{}
+      success:^(AFHTTPRequestOperation *operation , id responseObject) {
+          Notification *notification = [MTLJSONAdapter modelOfClass:Notification.class fromJSONDictionary:responseObject error:nil];
+          callback(notification);
+      }
+      failure:^(AFHTTPRequestOperation *operation , NSError *error) {
+          NSLog(@"ERROR: %@", error);
+      }];
+}
+
 - (void)markNotificationRead: (Notification *)notification {
     [self POST:[NSString stringWithFormat:@"notifications/%d/mark_viewed", [notification.id intValue]] parameters:nil constructingBodyWithBlock:nil success:nil
        failure:^(AFHTTPRequestOperation *operation , NSError *error) {
@@ -133,8 +142,8 @@ static NSString *APIToken;
        }];
 }
 
-- (void)markFeedRead: (NotificationFeed *)feed {
-    [self POST:[NSString stringWithFormat:@"feeds/%d/notifications/mark_viewed", [feed.id intValue]] parameters:nil constructingBodyWithBlock:nil success:nil
+- (void)markFeedWithIDRead: (NSInteger)feedID {
+    [self POST:[NSString stringWithFormat:@"feeds/%d/notifications/mark_viewed", feedID] parameters:nil constructingBodyWithBlock:nil success:nil
        failure:^(AFHTTPRequestOperation *operation , NSError *error) {
            NSLog(@"ERROR: %@", error);
        }];
@@ -158,7 +167,6 @@ static NSString *APIToken;
     [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     return [response statusCode] == 201;
-    
 }
 
 

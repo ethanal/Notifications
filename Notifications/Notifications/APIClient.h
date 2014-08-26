@@ -13,6 +13,7 @@
 
 typedef void(^FetchedFeeds)(NSMutableArray *feeds);
 typedef void(^FetchedNotifications)(NSMutableArray *notifications);
+typedef void(^FetchedNotification)(Notification *notification);
 typedef void(^FetchedDictionary)(NSDictionary *dictionary);
 
 @interface APIClient : AFHTTPRequestOperationManager
@@ -25,8 +26,9 @@ typedef void(^FetchedDictionary)(NSDictionary *dictionary);
 - (void)fetchFeedsWithCallback:(FetchedFeeds)callback;
 - (void)fetchUnsubscribedFeedsWithCallback: (FetchedFeeds)callback;
 - (void)fetchNotificationsForFeedWithID:(NSInteger)feedID withCallback:(FetchedNotifications)callback;
+- (void)fetchNotificationWithID:(NSInteger)feedID withCallback:(FetchedNotification)callback;
 - (void)markNotificationRead: (Notification*)notification;
-- (void)markFeedRead: (NotificationFeed *)feed;
+- (void)markFeedWithIDRead: (NSInteger)feedID;
 - (BOOL)subscribeToFeedWithID:(NSInteger)feedID;
 - (void)unsubscribeFromFeedWithID:(NSInteger)feedID;
 

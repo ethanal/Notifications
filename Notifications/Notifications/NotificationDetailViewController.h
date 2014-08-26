@@ -11,6 +11,7 @@
 
 @interface NotificationDetailViewController : UIViewController
 
-@property (nonatomic, assign) Notification *notification;
+@property (nonatomic, strong) Notification *notification;
+@property (nonatomic, assign) NSInteger notificationID;
 
 @end

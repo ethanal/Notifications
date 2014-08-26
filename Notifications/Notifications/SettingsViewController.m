@@ -40,6 +40,7 @@
         [self.tableView reloadData];
     }];
     
+    self.title = @"Subscribe to Feed";
     
     [self loadTableSectionsData];
 }

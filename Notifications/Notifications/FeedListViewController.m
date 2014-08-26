@@ -11,6 +11,7 @@
 #import "SettingsViewController.h"
 #import "APIClient.h"
 #import "CellWithUnreadIndicator.h"
+#import "SubscribeToFeedViewController.h"
 #import <TSMessage.h>
 
 @interface FeedListViewController ()
@@ -23,7 +24,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     
     // Set up refresh mechanism
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -37,7 +37,9 @@
     self.navigationItem.rightBarButtonItem = addFeedBarButton;
     
     self.title = @"Feeds";
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [self loadFeedList];
 }
 
@@ -60,16 +62,30 @@
 
 - (void)settingsBarButtonPressed:(id)sender {
     SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [settingsVC setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    settingsVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
     UINavigationController *settingsNavVC = [[UINavigationController alloc] initWithRootViewController:settingsVC];
     [self.navigationController presentViewController:settingsNavVC animated:YES completion:nil];
 }
 
 
 - (void)addFeedBarButtonPressed:(id)sender {
-    
+    SubscribeToFeedViewController *subscribeVC = [SubscribeToFeedViewController new];
+    subscribeVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+    subscribeVC.feeds = [NSMutableArray new];
+    UINavigationController *subscribeNavVC = [[UINavigationController alloc] initWithRootViewController:subscribeVC];
+    [self.navigationController presentViewController:subscribeNavVC animated:YES completion:nil];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [[APIClient sharedClient] unsubscribeFromFeedWithID:[((NotificationFeed *)[self.feeds objectAtIndex:indexPath.row]).id intValue]];
+    [self.feeds removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"Unsubscribe";
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.feeds count];
@@ -93,8 +109,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NotificationListViewController *notifListVC = [[NotificationListViewController alloc] init];
-    notifListVC.feed = (NotificationFeed *)[self.feeds objectAtIndex:indexPath.row];
+    NotificationListViewController *notifListVC = [NotificationListViewController new];
+    NotificationFeed *feed = (NotificationFeed *)[self.feeds objectAtIndex:indexPath.row];
+    notifListVC.feedID = [feed.id intValue];
+    notifListVC.title = feed.name;
     [self.navigationController pushViewController:notifListVC animated:YES];
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
