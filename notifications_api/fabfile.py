@@ -1,7 +1,8 @@
-from fabric.api import cd, run, prefix
+from fabric.api import cd, run, prefix, env
 
 
 def deploy():
+    env.forward_agent = True
     with cd("/usr/local/www/notifications"):
         run("git pull")
         with cd("notifications_api"):
