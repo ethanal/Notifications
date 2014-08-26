@@ -41,9 +41,6 @@
         [self loadTableSectionsData];
         [self.tableView reloadData];
     }];
-    
-    [self loadTableSectionsData];
-    [self.tableView reloadData];
 }
 
 - (void)loadTableSectionsData {

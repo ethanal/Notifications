@@ -24,8 +24,11 @@
 + (NSValueTransformer *)dateJSONTransformer {
     return [MTLValueTransformer transformerWithBlock:^(NSString *str) {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
-        
+        if ([str rangeOfString:@"."].location == NSNotFound) {
+            [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+        } else {
+            [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+        }
         NSLocale *posix = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         [formatter setLocale:posix];
         
