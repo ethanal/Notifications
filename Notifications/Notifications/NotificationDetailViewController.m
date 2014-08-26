@@ -39,7 +39,6 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"'Sent' dd MMM, yyyy 'at' h:mm:ss a"];
     self.sentDateLabel.text = [dateFormatter stringFromDate:self.notification.sentDate];
-    NSLog(@"%@", [dateFormatter stringFromDate:self.notification.sentDate]);
     self.sentDateLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.sentDateLabel];
     
