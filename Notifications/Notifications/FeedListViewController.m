@@ -83,11 +83,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
+    NotificationFeed *feed = (NotificationFeed *)[self.feeds objectAtIndex:indexPath.row];
+    
     
     int diameter = 8;
     CGRect frame = CGRectMake(3, 17, diameter, diameter);
     
-    BOOL hasUnread = ((NotificationFeed *)[self.feeds objectAtIndex:indexPath.row]).hasUnread;
+    BOOL hasUnread = feed.hasUnread;
     
     UIView *indicatorView = [cell.contentView viewWithTag:1];
     
@@ -100,31 +102,17 @@
         
     }
     
-    cell.textLabel.text = ((NotificationFeed *)[self.feeds objectAtIndex:indexPath.row]).name;
+    cell.textLabel.text = feed.name;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NotificationListViewController *notifListVC = [[NotificationListViewController alloc] init];
+    notifListVC.feed = (NotificationFeed *)[self.feeds objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:notifListVC animated:YES];
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-//    NotificationsListViewController *detailViewController = [segue destinationViewController];
-//    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-//    
-//    detailViewController.notifications = [[NSMutableArray alloc] initWithCapacity:20];
-//    
-//    Feed *feed = [feedList objectAtIndex:indexPath.row];
-//    detailViewController.feed = feed;
-//    
-//    detailViewController.title = feed.name;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

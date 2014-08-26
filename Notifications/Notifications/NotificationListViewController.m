@@ -7,6 +7,7 @@
 //
 
 #import "NotificationListViewController.h"
+#import "NotificationDetailViewController.h"
 #import "UnreadIndicatorView.h"
 #import "APIClient.h"
 
@@ -22,21 +23,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"Notifications";
+    self.title = self.feed.name;
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.notifications = [[NSMutableArray alloc] initWithObjects:@"Notification 1", @"Notification 2", @"Notification 3", @"Notification 4", nil];
+    [self loadNotifications];
 }
 
 - (void)loadNotifications {
-    [[APIClient sharedClient] fetchNotificationsForFeedWithID:self.feedID withCallback:^(NSMutableArray *notifications) {
+    NSLog(@"%@", self.feed.id);
+    [[APIClient sharedClient] fetchNotificationsForFeedWithID:[self.feed.id intValue] withCallback:^(NSMutableArray *notifications) {
         self.notifications = notifications;
         [self.tableView reloadData];
     }];
 }
 
 - (void)refresh:(id)sender {
-    [[APIClient sharedClient] fetchNotificationsForFeedWithID:self.feedID withCallback:^(NSMutableArray *notifications) {
+    [[APIClient sharedClient] fetchNotificationsForFeedWithID:[self.feed.id intValue] withCallback:^(NSMutableArray *notifications) {
         self.notifications = notifications;
         [self.tableView reloadData];
         [(UIRefreshControl *)sender endRefreshing];
@@ -55,11 +57,12 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
+    Notification *notification = (Notification *)[self.notifications objectAtIndex:indexPath.row];
     
     int diameter = 8;
     CGRect frame = CGRectMake(3, 17, diameter, diameter);
     
-    BOOL isUnread = YES;
+    BOOL isUnread = !notification.viewed;
     
     UIView *indicatorView = [cell.contentView viewWithTag:1];
     
@@ -71,19 +74,17 @@
         [cell.contentView addSubview:indicator];
     }
     
-    cell.textLabel.text = [self.notifications objectAtIndex:indexPath.row];
+    cell.textLabel.text = notification.title;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NotificationDetailViewController *notifDetailVC = [[NotificationDetailViewController alloc] init];
+    notifDetailVC.notification = (Notification *)[self.notifications objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:notifDetailVC animated:YES];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

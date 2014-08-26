@@ -25,6 +25,7 @@ urlpatterns += patterns(
     url(r"^logout$", "logout_view", name="logout"),
     url(r"^register$", "register_view", name="register"),
     url(r"^api$", "api_root", name="api_root"),
+    url(r"^api/device_info/(?P<device_token>\w+)$", "device_info", name="device_info"),
     url(r"^api/feeds/list$", "list_feeds", name="list_feeds"),
     url(r"^api/feeds/list_unsubscribed$", "list_unsubscribed_feeds", name="list_unsubscribed_feeds"),
     url(r"^api/feeds/create$", "create_feed", name="create_feed"),

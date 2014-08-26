@@ -82,6 +82,17 @@ def api_root(request):
     return Response("Documentation can be found at github.com/ethanal/Notifications")
 
 
+@api_view(["GET"])
+def device_info(request, device_token):
+    try:
+        return Response({
+            "username": request.user.username,
+            "device_name": Device.objects.filter(user=request.user).get(device_token=device_token).name
+        })
+    except Device.DoesNotExist:
+        return Response({"error": "Device does not exist."}, status=status.HTTP_404_NOT_FOUND)
+
+
 @login_required
 def create_feed(request):
     if request.method == "POST":
@@ -166,7 +177,7 @@ def list_notifications(request, feed):
     try:
         feed = Feed.objects.get(pk=feed, user=request.user)
     except Feed.DoesNotExist:
-        return Response({"error": "'Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
 
     try:
         notifications = Notification.objects.filter(feed=feed).order_by("-sent_date")

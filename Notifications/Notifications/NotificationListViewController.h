@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NotificationFeed.h"
 @interface NotificationListViewController : UITableViewController
 
-@property (nonatomic, assign) NSInteger feedID;
+@property (nonatomic, strong) NotificationFeed *feed;
 
 @end

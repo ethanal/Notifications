@@ -51,6 +51,20 @@ static NSString *APIToken;
     [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"device_token"];
 }
 
+- (void)fetchDeviceInfo: (FetchedDictionary)callback {
+    if (![APIClient deviceToken]) return;
+    
+    [self GET:[@"device_info/" stringByAppendingString:[APIClient deviceToken]] parameters:@{}
+      success:^(AFHTTPRequestOperation *operation , id responseObject) {
+          callback(responseObject);
+      }
+      failure:^(AFHTTPRequestOperation *operation , NSError *error) {
+          callback(@{});
+          NSLog(@"ERROR: %@", error);
+          NSLog(@"%@", operation.responseString);
+      }];
+}
+
 - (void)fetchFeedsWithCallback: (FetchedFeeds)callback {
     if (![APIClient deviceToken]) return;
     
@@ -96,10 +110,10 @@ static NSString *APIToken;
 
 - (void)fetchNotificationsForFeedWithID:(NSInteger)feedID withCallback:(FetchedNotifications)callback {
     if (![APIClient deviceToken]) return;
-    [self GET:@"notifications/list" parameters:@{@"feed": @(feedID)}
+    [self GET:[NSString stringWithFormat:@"feeds/%d/notifications/list", feedID] parameters:@{}
       success:^(AFHTTPRequestOperation *operation , id responseObject) {
           NSMutableArray *notifications = [[NSMutableArray alloc] initWithCapacity:10];
-          
+
           for (id notificationDict in responseObject) {
               [notifications addObject:[MTLJSONAdapter modelOfClass:Notification.class fromJSONDictionary:notificationDict error:nil]];
           }

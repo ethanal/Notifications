@@ -8,11 +8,15 @@
 
 #import "SettingsViewController.h"
 #import "RegisterDeviceViewController.h"
+#import "APIClient.h"
 #import <TSMessage.h>
+#import <SSKeychain.h>
 
 @interface SettingsViewController ()
 
 @property (nonatomic, strong) NSArray *tableSections;
+@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *deviceName;
 
 @end
 
@@ -26,17 +30,36 @@
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneButtonPressed:)];
     self.navigationItem.rightBarButtonItem = doneButton;
     
+    self.username = @"";
+    self.deviceName = @"";
     
+    [[APIClient sharedClient] fetchDeviceInfo:^(NSDictionary *dictionary) {
+        self.username = [dictionary objectForKey:@"username"];
+        self.deviceName = [dictionary objectForKey:@"device_name"];
+        [self loadTableSectionsData];
+        [self.tableView reloadData];
+    }];
+    
+    
+    [self loadTableSectionsData];
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self loadTableSectionsData];
+    [self.tableView reloadData];
+}
+
+- (void)loadTableSectionsData {
     self.tableSections = @[@{
                                @"title": @"Account Settings",
                                @"cells": @[
                                        @{
                                            @"title": @"Username",
-                                           @"detail": @"user"
+                                           @"detail": self.username
                                            },
                                        @{
                                            @"title": @"Device Name",
-                                           @"detail": @"device"
+                                           @"detail": self.deviceName
                                            }
                                        ]
                                },
@@ -44,7 +67,7 @@
                                @"title": @"API Root",
                                @"cells": @[
                                        @{
-                                           @"content": @"http://api.com/",
+                                           @"content": [[NSUserDefaults standardUserDefaults] objectForKey:@"APIRoot"],
                                            @"targetSelectorName": @"copyCellContent:"
                                            }
                                        ]
@@ -53,7 +76,7 @@
                                @"title": @"User Key",
                                @"cells": @[
                                        @{
-                                           @"content": @"12334324324412321432",
+                                           @"content": [SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"],
                                            @"targetSelectorName": @"copyCellContent:"
                                            }
                                        ]
@@ -67,7 +90,6 @@
                                        ]
                                }
                            ];
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

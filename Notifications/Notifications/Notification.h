@@ -8,7 +8,7 @@
 
 #import <Mantle.h>
 
-@interface Notification : MTLModel
+@interface Notification : MTLModel <MTLJSONSerializing>
 
 @property (nonatomic, strong) NSNumber *id;
 @property (nonatomic, strong) NSDate *sentDate;
