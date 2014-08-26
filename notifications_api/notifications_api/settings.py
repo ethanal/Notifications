@@ -43,7 +43,7 @@ else:
     # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
     with file(os.path.join(PROJECT_ROOT, "HOSTNAME")) as f:
         host = f.read().strip()
-    ALLOWED_HOSTS = ["127.0.0.1"]
+        ALLOWED_HOSTS = [host]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
