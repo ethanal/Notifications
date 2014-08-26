@@ -9,10 +9,9 @@
 #import "AppDelegate.h"
 #import "FeedListViewController.h"
 #import <TSMessage.h>
+#import "NSData+HexString.h"
+#import "APIClient.h"
 
-@interface AppDelegate ()
-
-@end
 
 @implementation AppDelegate
 
@@ -39,8 +38,31 @@
     
     // Set up TSMessage
     [TSMessage setDefaultViewController: self.window.rootViewController];
+ 
+    
+    
+    NSUInteger notificationTypes = (UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge);
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
+         (UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert)];
+        #pragma clang diagnostic pop
+    }
     
     return YES;
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
+    [[[APIClient sharedClient] class] setDeviceToken:[deviceToken hexadecimalString]];
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
+    NSLog(@"Failed to get token, error: %@", error);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

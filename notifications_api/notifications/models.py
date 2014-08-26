@@ -75,7 +75,7 @@ class Notification(models.Model):
         payload = json.dumps(payload_dict)
 
         device_tokens = [device.device_token for device in devices]
-
+        print device_tokens
         for token in device_tokens:
             token = binascii.unhexlify(token)
             fmt = "!cH32sH{0:d}s".format(len(payload))

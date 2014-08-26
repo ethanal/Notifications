@@ -8,6 +8,7 @@
 
 #import "NotificationListViewController.h"
 #import "UnreadIndicatorView.h"
+#import "APIClient.h"
 
 @interface NotificationListViewController ()
 
@@ -25,6 +26,21 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.notifications = [[NSMutableArray alloc] initWithObjects:@"Notification 1", @"Notification 2", @"Notification 3", @"Notification 4", nil];
+}
+
+- (void)loadNotifications {
+    [[APIClient sharedClient] fetchNotificationsForFeedWithID:self.feedID withCallback:^(NSMutableArray *notifications) {
+        self.notifications = notifications;
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)refresh:(id)sender {
+    [[APIClient sharedClient] fetchNotificationsForFeedWithID:self.feedID withCallback:^(NSMutableArray *notifications) {
+        self.notifications = notifications;
+        [self.tableView reloadData];
+        [(UIRefreshControl *)sender endRefreshing];
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -60,7 +76,9 @@
     return cell;
 }
 
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 
 - (void)didReceiveMemoryWarning {

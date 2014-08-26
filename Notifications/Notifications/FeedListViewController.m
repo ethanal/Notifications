@@ -10,6 +10,7 @@
 #import "NotificationListViewController.h"
 #import "SettingsViewController.h"
 #import "UnreadIndicatorView.h"
+#import "APIClient.h"
 #import <TSMessage.h>
 
 @interface FeedListViewController ()
@@ -37,11 +38,24 @@
     
     self.title = @"Feeds";
     
-    self.feeds = [[NSMutableArray alloc] initWithObjects:@"Feed 1", @"Feed 2", @"Feed 3", @"Feed 4", nil];
+    [self loadFeedList];
 }
 
 - (void)refresh:(id)sender {
-    [(UIRefreshControl *)sender endRefreshing];
+    [[APIClient sharedClient] fetchFeedsWithCallback:^(NSMutableArray *feeds) {
+        if (feeds)
+            self.feeds = feeds;
+        [self.tableView reloadData];
+        [(UIRefreshControl *)sender endRefreshing];
+    }];
+}
+
+- (void)loadFeedList {
+    [[APIClient sharedClient] fetchFeedsWithCallback:^(NSMutableArray *feeds) {
+        if (feeds)
+            self.feeds = feeds;
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)settingsBarButtonPressed:(id)sender {
@@ -73,7 +87,7 @@
     int diameter = 8;
     CGRect frame = CGRectMake(3, 17, diameter, diameter);
     
-    BOOL hasUnread = YES;
+    BOOL hasUnread = ((NotificationFeed *)[self.feeds objectAtIndex:indexPath.row]).hasUnread;
     
     UIView *indicatorView = [cell.contentView viewWithTag:1];
     
@@ -86,7 +100,7 @@
         
     }
     
-    cell.textLabel.text = [self.feeds objectAtIndex:indexPath.row];
+    cell.textLabel.text = ((NotificationFeed *)[self.feeds objectAtIndex:indexPath.row]).name;
     
     return cell;
 }
@@ -96,6 +110,16 @@
     [self.navigationController pushViewController:notifListVC animated:YES];
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+//    NotificationsListViewController *detailViewController = [segue destinationViewController];
+//    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+//    
+//    detailViewController.notifications = [[NSMutableArray alloc] initWithCapacity:20];
+//    
+//    Feed *feed = [feedList objectAtIndex:indexPath.row];
+//    detailViewController.feed = feed;
+//    
+//    detailViewController.title = feed.name;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2C52FAA12D0C4F209E7974F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB7CC7966F44C22900C03D5 /* libPods.a */; };
+		AA7AAAEB19ABD7470093547A /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAEA19ABD7470093547A /* NSData+HexString.m */; };
+		AA7AAAEE19AC0ABE0093547A /* NotificationFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAED19AC0ABE0093547A /* NotificationFeed.m */; };
+		AA7AAAF119AC1E1F0093547A /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAF019AC1E1F0093547A /* APIClient.m */; };
+		AA7AAAFA19AC22C40093547A /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAF919AC22C40093547A /* Notification.m */; };
 		AA8A7D43196DE78800C2F9D1 /* NotificationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */; };
 		AA8BF78A196CA12F00570724 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF789196CA12F00570724 /* main.m */; };
 		AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8BF78C196CA12F00570724 /* AppDelegate.m */; };
@@ -32,6 +36,14 @@
 /* Begin PBXFileReference section */
 		217468DBD5B04D4480A0862F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		6AB7CC7966F44C22900C03D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA7AAAE919ABD7470093547A /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
+		AA7AAAEA19ABD7470093547A /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
+		AA7AAAEC19AC0ABE0093547A /* NotificationFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationFeed.h; sourceTree = "<group>"; };
+		AA7AAAED19AC0ABE0093547A /* NotificationFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationFeed.m; sourceTree = "<group>"; };
+		AA7AAAEF19AC1E1F0093547A /* APIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIClient.h; sourceTree = "<group>"; };
+		AA7AAAF019AC1E1F0093547A /* APIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIClient.m; sourceTree = "<group>"; };
+		AA7AAAF819AC22C40093547A /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
+		AA7AAAF919AC22C40093547A /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		AA8A7D41196DE78800C2F9D1 /* NotificationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationListViewController.h; sourceTree = "<group>"; };
 		AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationListViewController.m; sourceTree = "<group>"; };
 		AA8BF784196CA12F00570724 /* Notifications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notifications.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +94,59 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		AA7AAAF219AC21CE0093547A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				AA7AAAEF19AC1E1F0093547A /* APIClient.h */,
+				AA7AAAF019AC1E1F0093547A /* APIClient.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		AA7AAAF319AC21DE0093547A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA7AAAEC19AC0ABE0093547A /* NotificationFeed.h */,
+				AA7AAAED19AC0ABE0093547A /* NotificationFeed.m */,
+				AA7AAAF819AC22C40093547A /* Notification.h */,
+				AA7AAAF919AC22C40093547A /* Notification.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		AA7AAAF519AC21EA0093547A /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				AA7AAAE919ABD7470093547A /* NSData+HexString.h */,
+				AA7AAAEA19ABD7470093547A /* NSData+HexString.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		AA7AAAF619AC22000093547A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				AA8BF7AD196CA2FD00570724 /* FeedListViewController.h */,
+				AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */,
+				AA8A7D41196DE78800C2F9D1 /* NotificationListViewController.h */,
+				AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */,
+				AAB306EA196E101B007DC4FE /* SettingsViewController.h */,
+				AAB306E9196E101B007DC4FE /* SettingsViewController.m */,
+				AACC93E5196CCAD0004EC101 /* RegisterDeviceViewController.h */,
+				AACC93E6196CCAD0004EC101 /* RegisterDeviceViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		AA7AAAF719AC22080093547A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */,
+				AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		AA8BF77B196CA12F00570724 = {
 			isa = PBXGroup;
 			children = (
@@ -107,16 +172,11 @@
 			children = (
 				AA8BF78B196CA12F00570724 /* AppDelegate.h */,
 				AA8BF78C196CA12F00570724 /* AppDelegate.m */,
-				AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */,
-				AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */,
-				AA8BF7AD196CA2FD00570724 /* FeedListViewController.h */,
-				AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */,
-				AA8A7D41196DE78800C2F9D1 /* NotificationListViewController.h */,
-				AA8A7D42196DE78800C2F9D1 /* NotificationListViewController.m */,
-				AAB306EA196E101B007DC4FE /* SettingsViewController.h */,
-				AAB306E9196E101B007DC4FE /* SettingsViewController.m */,
-				AACC93E5196CCAD0004EC101 /* RegisterDeviceViewController.h */,
-				AACC93E6196CCAD0004EC101 /* RegisterDeviceViewController.m */,
+				AA7AAAF619AC22000093547A /* Controllers */,
+				AA7AAAF719AC22080093547A /* Views */,
+				AA7AAAF319AC21DE0093547A /* Models */,
+				AA7AAAF219AC21CE0093547A /* Utils */,
+				AA7AAAF519AC21EA0093547A /* Categories */,
 				AA8BF797196CA12F00570724 /* Images.xcassets */,
 				AA8BF787196CA12F00570724 /* Supporting Files */,
 			);
@@ -287,9 +347,13 @@
 				AACC93E4196CC658004EC101 /* UnreadIndicatorView.m in Sources */,
 				AAB306EB196E101B007DC4FE /* SettingsViewController.m in Sources */,
 				AA8BF78D196CA12F00570724 /* AppDelegate.m in Sources */,
+				AA7AAAFA19AC22C40093547A /* Notification.m in Sources */,
 				AACC93E7196CCAD0004EC101 /* RegisterDeviceViewController.m in Sources */,
+				AA7AAAF119AC1E1F0093547A /* APIClient.m in Sources */,
 				AA8BF7AF196CA2FD00570724 /* FeedListViewController.m in Sources */,
 				AA8BF78A196CA12F00570724 /* main.m in Sources */,
+				AA7AAAEB19ABD7470093547A /* NSData+HexString.m in Sources */,
+				AA7AAAEE19AC0ABE0093547A /* NotificationFeed.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

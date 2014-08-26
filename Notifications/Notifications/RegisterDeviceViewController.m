@@ -8,6 +8,7 @@
 
 #import "RegisterDeviceViewController.h"
 #import "MTBBarcodeScanner.h"
+#import <SSKeyChain.h>
 
 @interface RegisterDeviceViewController ()
 
@@ -206,7 +207,9 @@
             NSArray *stringParts = [decodedString componentsSeparatedByString:@" "];
             NSString *apiRoot = [stringParts firstObject];
             NSString *apiKey = [stringParts lastObject];
+            
             NSLog(@"%@ %@", apiRoot, apiKey);
+            
             self.foundQRCode = YES;
             
             // Pause the camera view on a still frame of the QR code
@@ -216,6 +219,9 @@
                 self.apiRootLabel.text = apiRoot;
                 self.apiKeyLabel.text = apiKey;
                 self.registerDeviceButton.enabled = YES;
+            
+                [SSKeychain setPassword:apiKey forService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"];
+                [[NSUserDefaults standardUserDefaults] setObject:apiRoot forKey:@"APIRoot"];
             } else {
                 self.invalidQRAlert = [[UIAlertView alloc] initWithTitle:@"Invalid QR Code"
                                                                  message:nil

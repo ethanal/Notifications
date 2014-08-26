@@ -120,6 +120,16 @@ def list_feeds(request):
     return Response(FeedSerializer(feeds, many=True).data)
 
 
+@api_view(["GET"])
+def list_unsubscribed_feeds(request):
+    feeds = Feed.objects.filter(user=request.user)
+    if "device_token" not in request.GET:
+        return Response({"error": "'device_token' parameter must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+    feeds = feeds.exclude(devices__device_token=request.GET["device_token"])
+
+    return Response(FeedSerializer(feeds, many=True).data)
+
+
 @api_view(["POST"])
 def subscribe_to_feed(request, feed):
     try:

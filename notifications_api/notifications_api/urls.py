@@ -26,6 +26,7 @@ urlpatterns += patterns(
     url(r"^register$", "register_view", name="register"),
     url(r"^api$", "api_root", name="api_root"),
     url(r"^api/feeds/list$", "list_feeds", name="list_feeds"),
+    url(r"^api/feeds/list_unsubscribed$", "list_unsubscribed_feeds", name="list_unsubscribed_feeds"),
     url(r"^api/feeds/create$", "create_feed", name="create_feed"),
     url(r"^api/feeds/(?P<feed>\d+)/delete$", "delete_feed", name="delete_feed"),
     url(r"^api/feeds/(?P<feed>\d+)/subscribe", "subscribe_to_feed", name="subscribe_to_feed"),

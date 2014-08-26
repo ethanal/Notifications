@@ -10,4 +10,6 @@
 
 @interface NotificationListViewController : UITableViewController
 
+@property (nonatomic, assign) NSInteger feedID;
+
 @end
