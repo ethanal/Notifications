@@ -133,6 +133,13 @@ static NSString *APIToken;
        }];
 }
 
+- (void)markFeedRead: (NotificationFeed *)feed {
+    [self POST:[NSString stringWithFormat:@"feeds/%d/notifications/mark_viewed", [feed.id intValue]] parameters:nil constructingBodyWithBlock:nil success:nil
+       failure:^(AFHTTPRequestOperation *operation , NSError *error) {
+           NSLog(@"ERROR: %@", error);
+       }];
+}
+
 
 - (BOOL)subscribeToFeedWithID:(NSInteger)feedID {
     if (![APIClient deviceToken]) return false;

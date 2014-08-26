@@ -12,19 +12,16 @@
 
 @synthesize status = _status;
 
-- (instancetype)initWithFrame:(CGRect)frame status:(BOOL)status {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.status = status;
-        
         // Set transparent background
         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     }
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
     if (self.status) {
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGContextClearRect(ctx, rect);

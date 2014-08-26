@@ -26,6 +26,7 @@ typedef void(^FetchedDictionary)(NSDictionary *dictionary);
 - (void)fetchUnsubscribedFeedsWithCallback: (FetchedFeeds)callback;
 - (void)fetchNotificationsForFeedWithID:(NSInteger)feedID withCallback:(FetchedNotifications)callback;
 - (void)markNotificationRead: (Notification*)notification;
+- (void)markFeedRead: (NotificationFeed *)feed;
 - (BOOL)subscribeToFeedWithID:(NSInteger)feedID;
 - (void)unsubscribeFromFeedWithID:(NSInteger)feedID;
 

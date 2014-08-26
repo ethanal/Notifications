@@ -9,8 +9,8 @@
 #import "FeedListViewController.h"
 #import "NotificationListViewController.h"
 #import "SettingsViewController.h"
-#import "UnreadIndicatorView.h"
 #import "APIClient.h"
+#import "CellWithUnreadIndicator.h"
 #import <TSMessage.h>
 
 @interface FeedListViewController ()
@@ -77,30 +77,15 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"FeedListCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    CellWithUnreadIndicator *cell = (CellWithUnreadIndicator *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[CellWithUnreadIndicator alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     NotificationFeed *feed = (NotificationFeed *)[self.feeds objectAtIndex:indexPath.row];
-    
-    
-    int diameter = 8;
-    CGRect frame = CGRectMake(3, 17, diameter, diameter);
-    
     BOOL hasUnread = feed.hasUnread;
-    
-    UIView *indicatorView = [cell.contentView viewWithTag:1];
-    
-    if (indicatorView) {
-        ((UnreadIndicatorView *)indicatorView).status = hasUnread;
-    } else {
-        UnreadIndicatorView *indicator = [[UnreadIndicatorView alloc] initWithFrame:frame status:hasUnread];
-        [cell.contentView addSubview:indicator];
-        indicatorView.tag = 1;
-        
-    }
+    cell.unreadIndicator.status = hasUnread;
     
     cell.textLabel.text = feed.name;
     

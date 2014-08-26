@@ -9,6 +9,7 @@
 #import "NotificationListViewController.h"
 #import "NotificationDetailViewController.h"
 #import "UnreadIndicatorView.h"
+#import "CellWithUnreadIndicator.h"
 #import "APIClient.h"
 
 @interface NotificationListViewController ()
@@ -21,16 +22,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.title = self.feed.name;
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    // Set up refresh mechanism
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self setRefreshControl:refreshControl];
+    
+    // Set up navigation bar buttons
+    UIBarButtonItem *markAllReadButton = [[UIBarButtonItem alloc] initWithTitle:@"Mark All Read" style:UIBarButtonItemStylePlain target:self action:@selector(markAllRead:)];
+    self.navigationItem.rightBarButtonItem = markAllReadButton;
     
     [self loadNotifications];
 }
 
 - (void)loadNotifications {
-    NSLog(@"%@", self.feed.id);
     [[APIClient sharedClient] fetchNotificationsForFeedWithID:[self.feed.id intValue] withCallback:^(NSMutableArray *notifications) {
         self.notifications = notifications;
         [self.tableView reloadData];
@@ -45,34 +53,29 @@
     }];
 }
 
+- (void)markAllRead:(id)sender {
+    [[APIClient sharedClient] markFeedRead:self.feed];
+    for (id notification in self.notifications) {
+        ((Notification *) notification).viewed = YES;
+    }
+    [self.tableView reloadData];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.notifications count];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"NotificationListCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    CellWithUnreadIndicator *cell = (CellWithUnreadIndicator *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = [[CellWithUnreadIndicator alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     Notification *notification = (Notification *)[self.notifications objectAtIndex:indexPath.row];
-    
-    int diameter = 8;
-    CGRect frame = CGRectMake(3, 17, diameter, diameter);
-    
     BOOL isUnread = !notification.viewed;
-    
-    UIView *indicatorView = [cell.contentView viewWithTag:1];
-    
-    if (indicatorView) {
-        ((UnreadIndicatorView *)indicatorView).status = isUnread;
-    } else {
-        UnreadIndicatorView *indicator = [[UnreadIndicatorView alloc] initWithFrame:frame status:isUnread];
-        indicator.tag = 1;
-        [cell.contentView addSubview:indicator];
-    }
+    cell.unreadIndicator.status = isUnread;
     
     cell.textLabel.text = notification.title;
     

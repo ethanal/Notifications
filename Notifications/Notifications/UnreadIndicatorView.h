@@ -12,6 +12,4 @@
 
 @property (nonatomic, assign) BOOL status;
 
-- (instancetype)initWithFrame:(CGRect)frame status:(BOOL)status;
-
 @end
