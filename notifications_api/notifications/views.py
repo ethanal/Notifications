@@ -157,6 +157,22 @@ def subscribe_to_feed(request, feed):
 
 
 @api_view(["POST"])
+def register_device(request):
+    print request.DATA
+    try:
+        Device.objects.filter(device_token=request.DATA["device_token"]).delete()
+        Device.objects.create(device_token=request.DATA["device_token"],
+                              name=request.DATA["name"][:50],
+                              user=request.user)
+
+        return Response({"success": "Device successfully registered"}, status=status.HTTP_201_CREATED)
+    except Device.DoesNotExist:
+        return Response({"error": "Device with specified 'device_token' does not exist"}, status=status.HTTP_404_NOT_FOUND)
+    except MultiValueDictKeyError:
+        return Response({"error": "'device_token' and 'name' fields must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["POST"])
 def unsubscribe_from_feed(request, feed):
     try:
         feed = Feed.objects.get(pk=feed, user=request.user)

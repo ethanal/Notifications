@@ -32,7 +32,9 @@
     
     self.username = @"";
     self.deviceName = @"";
-    
+}
+
+- (void) viewDidAppear:(BOOL)animated {
     [[APIClient sharedClient] fetchDeviceInfo:^(NSDictionary *dictionary) {
         self.username = [dictionary objectForKey:@"username"];
         self.deviceName = [dictionary objectForKey:@"device_name"];
@@ -40,27 +42,23 @@
         [self.tableView reloadData];
     }];
     
-    self.title = @"Subscribe to Feed";
-    
-    [self loadTableSectionsData];
-}
-
-- (void) viewDidAppear:(BOOL)animated {
     [self loadTableSectionsData];
     [self.tableView reloadData];
 }
 
 - (void)loadTableSectionsData {
+    NSString* apiRoot = [[NSUserDefaults standardUserDefaults] objectForKey:@"APIRoot"];
+    NSString *apiKey = [SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"];
     self.tableSections = @[@{
                                @"title": @"Account Settings",
                                @"cells": @[
                                        @{
                                            @"title": @"Username",
-                                           @"detail": self.username
+                                           @"detail": self.username == nil ? @"" : self.username
                                            },
                                        @{
                                            @"title": @"Device Name",
-                                           @"detail": self.deviceName
+                                           @"detail": self.deviceName == nil ? @"" : self.deviceName
                                            }
                                        ]
                                },
@@ -68,16 +66,16 @@
                                @"title": @"API Root",
                                @"cells": @[
                                        @{
-                                           @"content": [[NSUserDefaults standardUserDefaults] objectForKey:@"APIRoot"],
+                                           @"content": apiRoot == nil ? @"" : apiRoot,
                                            @"targetSelectorName": @"copyCellContent:"
                                            }
                                        ]
                                },
                            @{
-                               @"title": @"User Key",
+                               @"title": @"API Key",
                                @"cells": @[
                                        @{
-                                           @"content": [SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"],
+                                           @"content": apiKey == nil ? @"" : apiKey,
                                            @"targetSelectorName": @"copyCellContent:"
                                            }
                                        ]

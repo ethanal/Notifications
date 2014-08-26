@@ -50,6 +50,16 @@ static NSString *APIToken;
     [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"device_token"];
 }
 
+- (void)registerDevice:(NSString*)deviceName withCallback:(void (^)())callback {
+    if (![APIClient deviceToken]) return;
+    
+    [self POST:@"register_device" parameters:@{@"device_token": [APIClient deviceToken], @"name": deviceName} constructingBodyWithBlock:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        callback();
+    } failure:^(AFHTTPRequestOperation *operation , NSError *error) {
+        NSLog(@"ERROR: %@", error);
+    }];
+}
+
 - (void)fetchDeviceInfo: (FetchedDictionary)callback {
     if (![APIClient deviceToken]) return;
     

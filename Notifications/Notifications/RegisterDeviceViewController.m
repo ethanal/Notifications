@@ -9,6 +9,7 @@
 #import "RegisterDeviceViewController.h"
 #import "MTBBarcodeScanner.h"
 #import <SSKeyChain.h>
+#import "APIClient.h"
 
 @interface RegisterDeviceViewController ()
 
@@ -20,6 +21,9 @@
 @property (nonatomic, strong) UILabel *apiRootLabel;
 @property (nonatomic, strong) UILabel *apiKeyLabel;
 @property (nonatomic, strong) UIButton *registerDeviceButton;
+
+@property (nonatomic, strong) NSString *apiRoot;
+@property (nonatomic, strong) NSString *apiKey;
 
 @end
 
@@ -131,7 +135,7 @@
     // Add submit button
     self.registerDeviceButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.registerDeviceButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.registerDeviceButton setTitle:@"Add Device" forState:UIControlStateNormal];
+    [self.registerDeviceButton setTitle:@"Register Device" forState:UIControlStateNormal];
     self.registerDeviceButton.enabled = NO;
     [self.registerDeviceButton addTarget:self action:@selector(registerDevice:) forControlEvents:UIControlEventTouchUpInside];
     [self.feedbackView addSubview:self.registerDeviceButton];
@@ -208,8 +212,6 @@
             NSString *apiRoot = [stringParts firstObject];
             NSString *apiKey = [stringParts lastObject];
             
-            NSLog(@"%@ %@", apiRoot, apiKey);
-            
             self.foundQRCode = YES;
             
             // Pause the camera view on a still frame of the QR code
@@ -219,9 +221,9 @@
                 self.apiRootLabel.text = apiRoot;
                 self.apiKeyLabel.text = apiKey;
                 self.registerDeviceButton.enabled = YES;
-            
-                [SSKeychain setPassword:apiKey forService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"];
-                [[NSUserDefaults standardUserDefaults] setObject:apiRoot forKey:@"APIRoot"];
+                
+                self.apiKey = apiKey;
+                self.apiRoot = apiRoot;
             } else {
                 self.invalidQRAlert = [[UIAlertView alloc] initWithTitle:@"Invalid QR Code"
                                                                  message:nil
@@ -242,17 +244,23 @@
         self.foundQRCode = NO;
         // Unpause the camera view
         ((AVCaptureVideoPreviewLayer*)[self.cameraView.layer.sublayers firstObject]).connection.enabled = YES;
+    } else {
+        if (buttonIndex == 1) {
+            NSString *deviceName = [alertView textFieldAtIndex:0].text;
+            [[APIClient sharedClient] registerDevice:deviceName withCallback:^{
+                [self dismissViewController:nil];
+            }];
+        }
     }
 }
 
 - (void)registerDevice:(id)sender {
-    NSLog(@"Added device");
-    [self dismissViewController:nil];
-}
-
-
-- (BOOL)registerDeviceToAPIRoot:(NSString*) apiRoot withAPIKey:(NSString*) apiKey {
-    return YES;
+    [SSKeychain setPassword:self.apiKey forService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.apiRoot forKey:@"APIRoot"];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Name this device" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Submit", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
 }
 
 

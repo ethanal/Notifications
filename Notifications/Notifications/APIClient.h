@@ -22,6 +22,7 @@ typedef void(^FetchedDictionary)(NSDictionary *dictionary);
 + (NSString *)deviceToken;
 + (void)setDeviceToken: (NSString *)token;
 
+- (void)registerDevice:(NSString*)deviceName withCallback:(void (^)())callback;
 - (void)fetchDeviceInfo: (FetchedDictionary)callback;
 - (void)fetchFeedsWithCallback:(FetchedFeeds)callback;
 - (void)fetchUnsubscribedFeedsWithCallback: (FetchedFeeds)callback;
