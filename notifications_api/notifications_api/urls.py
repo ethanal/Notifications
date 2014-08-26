@@ -37,5 +37,4 @@ urlpatterns += patterns(
     url(r"^api/notifications/(?P<pk>\d+)$", "get_notification", name="get_notification"),
     url(r"^api/notifications/(?P<pk>\d+)/mark_viewed$", "mark_viewed", name="mark_viewed"),
     url(r"^api/notifications/send$", "send_notification", name="send_notification"),
-    url(r"^api/notifications/mailgun_send$", "send_notification_from_mailgun", name="send_notification_from_mailgun"),
 )

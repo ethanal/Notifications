@@ -86,7 +86,7 @@
     NSDictionary *apnPayload = userInfo[@"aps"];
     self.apnFeedID = [apnPayload[@"feed"] intValue];
     self.apnNotificationID = [apnPayload[@"notification"] intValue];
-    NSLog(@"%d", application.applicationState);
+    
     if (application.applicationState == UIApplicationStateActive) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:apnPayload[@"feed_name"]
                                                         message:apnPayload[@"alert"]
