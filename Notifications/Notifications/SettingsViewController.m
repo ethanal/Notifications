@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray *tableSections;
 @property (nonatomic, strong) NSString *username;
 @property (nonatomic, strong) NSString *deviceName;
+@property (nonatomic, strong) NSString *userKey;
 
 @end
 
@@ -32,12 +33,14 @@
     
     self.username = @"";
     self.deviceName = @"";
+    self.userKey = @"";
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [[APIClient sharedClient] fetchDeviceInfo:^(NSDictionary *dictionary) {
         self.username = [dictionary objectForKey:@"username"];
         self.deviceName = [dictionary objectForKey:@"device_name"];
+        self.userKey = [dictionary objectForKey:@"user_key"];
         [self loadTableSectionsData];
         [self.tableView reloadData];
     }];
@@ -45,7 +48,7 @@
 
 - (void)loadTableSectionsData {
     NSString* apiRoot = [[NSUserDefaults standardUserDefaults] objectForKey:@"APIRoot"];
-    NSString *apiKey = [SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"];
+
     self.tableSections = @[@{
                                @"title": @"Account Settings",
                                @"cells": @[
@@ -69,10 +72,10 @@
                                        ]
                                },
                            @{
-                               @"title": @"API Key",
+                               @"title": @"User Key",
                                @"cells": @[
                                        @{
-                                           @"content": apiKey == nil ? @"" : apiKey,
+                                           @"content": self.userKey == nil ? @"" : self.userKey,
                                            @"targetSelectorName": @"copyCellContent:"
                                            }
                                        ]

@@ -87,7 +87,8 @@ def device_info(request, device_token):
     try:
         return Response({
             "username": request.user.username,
-            "device_name": Device.objects.filter(user=request.user).get(device_token=device_token).name
+            "device_name": Device.objects.filter(user=request.user).get(device_token=device_token).name,
+            "user_key": request.user.user_key.key
         })
     except Device.DoesNotExist:
         return Response({"error": "Device does not exist."}, status=status.HTTP_404_NOT_FOUND)
@@ -234,22 +235,16 @@ def mark_all_viewed(request, feed):
         return Response({"error": "Feed does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
 
-@api_view(["POST"])
-def send_notification(request):
+def _send_notification(user, data, error_status=None):
     try:
-        data = {
-            "feed": request.DATA.get("feed", None),
-            "title": request.DATA.get("title", None),
-            "message": request.DATA.get("message", None)
-        }
-
         serializer = NotificationSerializer(data=data)
         if not serializer.is_valid():
-            return Response({"error": "All fields are required", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            response_status = status.HTTP_400_BAD_REQUEST if error_status is None else error_status
+            return Response({"error": "All fields are required", "errors": serializer.errors}, status=response_status)
 
-        feed = Feed.objects.get(pk=request.DATA["feed"], user=request.user)
+        feed = Feed.objects.get(pk=data["feed"], user=user)
 
-        n = Notification.objects.create(feed=feed, title=request.DATA["title"], message=request.DATA["message"])
+        n = Notification.objects.create(feed=feed, title=data["title"], message=data["message"])
         t = threading.Thread(target=n.send,
                              args=[feed.devices.all()],
                              kwargs={})
@@ -257,24 +252,32 @@ def send_notification(request):
         t.start()
         return Response({"success": "Notification successfully sent"})
     except Feed.DoesNotExist:
-        return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
+        response_status = status.HTTP_404_NOT_FOUND if error_status is None else error_status
+        return Response({"error": "Feed does not exist."}, status=response_status)
 
 
-# @api_view(["POST"])
-# @authentication_classes((MailgunAuthentication,))
-# def send_notification_from_mailgun(request):
-#     return Response({"success": "Sent notification from email."})
-#     # try:
-#     #     feed = Feed.objects.get(pk=request.DATA["feed"])
+@api_view(["POST"])
+def send_notification(request):
+    data = {
+        "feed": request.DATA.get("feed", None),
+        "title": request.DATA.get("title", None),
+        "message": request.DATA.get("message", None)
+    }
 
-#     #     n = Notification.objects.create(feed=feed, message=request.DATA["message"], long_message=request.DATA.get("long_message", ""))
-#     #     t = threading.Thread(target=n.send,
-#     #                          args=[feed.devices.all()],
-#     #                          kwargs={})
-#     #     t.setDaemon(True)
-#     #     t.start()
-#     #     return Response({"success": "Notification successfully sent"})
-#     # except Feed.DoesNotExist:
-#     #     return Response({"error": "Feed does not exist."}, status=status.HTTP_404_NOT_FOUND)
-#     # except MultiValueDictKeyError:
-#     #     return Response({"error": "'feed' and 'message' headers must be specified"}, status=status.HTTP_400_BAD_REQUEST)
+    return _send_notification(request.user, data)
+
+
+@api_view(["POST"])
+@authentication_classes((MailgunAuthentication,))
+def send_notification_from_mailgun(request):
+    prefix, key, feed = request.POST.get("recipient").split("_")
+    feed = feed.split("@")[0]
+
+    data = {
+        "feed": feed,
+        "title": request.POST.get("subject", None),
+        "message": request.POST.get("body-plain", None)
+
+    }
+
+    return _send_notification(request.user, data, error_status=status.HTTP_406_NOT_ACCEPTABLE)

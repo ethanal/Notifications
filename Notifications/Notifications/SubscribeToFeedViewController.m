@@ -39,16 +39,6 @@
     self.addButton.translatesAutoresizingMaskIntoConstraints = NO;
     [self.view addSubview:self.addButton];
     
-    [[APIClient sharedClient] fetchUnsubscribedFeedsWithCallback:^(NSMutableArray *feeds) {
-        self.feeds = feeds;
-        if ([self.feeds count] > 0) {
-            self.addButton.enabled = YES;
-        } else {
-            self.feedPicker.userInteractionEnabled = NO;
-        }
-        [self.feedPicker reloadAllComponents];
-    }];
-    
     NSDictionary *views = @{
                             @"feedPicker": self.feedPicker,
                             @"addButton": self.addButton
@@ -72,6 +62,18 @@
                                metrics:metrics
                                views:views]];
 
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [[APIClient sharedClient] fetchUnsubscribedFeedsWithCallback:^(NSMutableArray *feeds) {
+        self.feeds = feeds;
+        if ([self.feeds count] > 0) {
+            self.addButton.enabled = YES;
+        } else {
+            self.feedPicker.userInteractionEnabled = NO;
+        }
+        [self.feedPicker reloadAllComponents];
+    }];
 }
 
 - (void)cancelButtonPressed:(id)sender {
