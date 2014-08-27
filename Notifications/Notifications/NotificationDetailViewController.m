@@ -51,7 +51,8 @@
     }
         
     if ([html rangeOfString:@"<html>"].location == NSNotFound) {
-        NSString *style = @"<style>* {font-size: 15px; font-family: 'HelveticaNeue'}</style>";
+        CGFloat textViewWidth = self.view.frame.size.width - 40.0f;
+        NSString *style = [NSString stringWithFormat:@"<style>* {font-size: 15px; font-family: 'HelveticaNeue'; max-width: %fpx;}</style>", textViewWidth];
         html = [style stringByAppendingString:html];
     }
     NSData *htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
