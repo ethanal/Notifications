@@ -43,10 +43,17 @@
     [self.view addSubview:self.sentDateLabel];
     
     self.messageTextView = [UITextView new];
+    self.messageTextView.editable = NO;
+    NSString *html = self.notification.message;
     
-    NSString *html = [self.notification.message stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
-    NSString *prefix = @"<meta charset=\"UTF-8\"><style>* {font-size: 15px; font-family: 'HelveticaNeue'}</style>";
-    html = [prefix stringByAppendingString:html];
+    if ([html rangeOfString:@"</"].location == NSNotFound) {
+        html = [html stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+    }
+        
+    if ([html rangeOfString:@"<html>"].location == NSNotFound) {
+        NSString *style = @"<style>* {font-size: 15px; font-family: 'HelveticaNeue'}</style>";
+        html = [style stringByAppendingString:html];
+    }
     NSData *htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *attributedStringOptions = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)
