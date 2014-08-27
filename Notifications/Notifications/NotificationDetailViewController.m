@@ -43,8 +43,17 @@
     [self.view addSubview:self.sentDateLabel];
     
     self.messageTextView = [UITextView new];
-    self.messageTextView.text = self.notification.message;
-    self.messageTextView.font = [self.messageTextView.font fontWithSize:15.0f];
+    
+    NSString *html = [self.notification.message stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+    NSString *prefix = @"<meta charset=\"UTF-8\"><style>* {font-size: 15px; font-family: 'HelveticaNeue'}</style>";
+    html = [prefix stringByAppendingString:html];
+    NSData *htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *attributedStringOptions = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                              NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)
+                                              };
+    NSAttributedString *messageContent = [[NSAttributedString alloc] initWithData:htmlData options:attributedStringOptions documentAttributes:nil error:nil];
+    self.messageTextView.attributedText = messageContent;
+    
     self.messageTextView.textContainer.lineFragmentPadding = 0;
     self.messageTextView.textContainerInset = UIEdgeInsetsZero;
     self.messageTextView.translatesAutoresizingMaskIntoConstraints = NO;

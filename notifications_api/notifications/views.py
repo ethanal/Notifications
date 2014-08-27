@@ -274,7 +274,7 @@ def send_notification_from_mailgun(request):
     prefix, key, feed = request.POST.get("recipient").split("_")
     feed = feed.split("@")[0]
 
-    message = request.POST.get("body-plain", None)
+    message = request.POST.get("body-html", request.POST.get("body-plain", None))
     message = re.sub(r"\n +", "\n", message).strip()
 
     data = {
