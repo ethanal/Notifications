@@ -61,6 +61,8 @@
     NSAttributedString *messageContent = [[NSAttributedString alloc] initWithData:htmlData options:attributedStringOptions documentAttributes:nil error:nil];
     self.messageTextView.attributedText = messageContent;
     
+    self.messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
+    self.messageTextView.editable = NO;
     self.messageTextView.textContainer.lineFragmentPadding = 0;
     self.messageTextView.textContainerInset = UIEdgeInsetsZero;
     self.messageTextView.translatesAutoresizingMaskIntoConstraints = NO;
