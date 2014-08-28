@@ -17,6 +17,7 @@
         int diameter = 8;
         CGRect frame = CGRectMake(3, 17, diameter, diameter);
         self.unreadIndicator = [[UnreadIndicatorView alloc] initWithFrame:frame];
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return self;
 }

@@ -46,7 +46,26 @@
     self.messageTextView.editable = NO;
     NSString *html = self.notification.message;
     
-    if ([html rangeOfString:@"</"].location == NSNotFound) {
+    BOOL isHTML = ([html rangeOfString:@"</"].location != NSNotFound);
+    
+    NSArray *singletonTags = @[@"img",
+                               @"br",
+                               @"area ",
+                               @"base",
+                               @"col",
+                               @"command",
+                               @"embed",
+                               @"hr",
+                               @"input",
+                               @"link",
+                               @"meta",
+                               @"param",
+                               @"source"];
+    for (NSString *tag in singletonTags) {
+        isHTML = isHTML || ([html rangeOfString:tag].location != NSNotFound);
+    }
+    
+    if (!isHTML) {
         html = [html stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
     }
         
