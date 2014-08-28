@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C52FAA12D0C4F209E7974F3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AB7CC7966F44C22900C03D5 /* libPods.a */; };
+		AA4B5B3019AF0CAA002C3ABE /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4B5B2F19AF0CAA002C3ABE /* Crashlytics.framework */; };
 		AA7AAAEB19ABD7470093547A /* NSData+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAEA19ABD7470093547A /* NSData+HexString.m */; };
 		AA7AAAEE19AC0ABE0093547A /* NotificationFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAED19AC0ABE0093547A /* NotificationFeed.m */; };
 		AA7AAAF119AC1E1F0093547A /* APIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7AAAF019AC1E1F0093547A /* APIClient.m */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		217468DBD5B04D4480A0862F /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		6AB7CC7966F44C22900C03D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA4B5B2F19AF0CAA002C3ABE /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		AA7AAAE919ABD7470093547A /* NSData+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HexString.h"; sourceTree = "<group>"; };
 		AA7AAAEA19ABD7470093547A /* NSData+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HexString.m"; sourceTree = "<group>"; };
 		AA7AAAEC19AC0ABE0093547A /* NotificationFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationFeed.h; sourceTree = "<group>"; };
@@ -68,6 +70,8 @@
 		AA8BF7AE196CA2FD00570724 /* FeedListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FeedListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AAB306E9196E101B007DC4FE /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		AAB306EA196E101B007DC4FE /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		AAC9E7EA19AEFF9B0097DB7D /* CrashlyticsBuildPhase.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = CrashlyticsBuildPhase.sh; sourceTree = "<group>"; };
+		AAC9E7EC19AF020A0097DB7D /* CrashlyticsAPIKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashlyticsAPIKey.h; sourceTree = "<group>"; };
 		AACC93E2196CC658004EC101 /* UnreadIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnreadIndicatorView.h; sourceTree = "<group>"; };
 		AACC93E3196CC658004EC101 /* UnreadIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnreadIndicatorView.m; sourceTree = "<group>"; };
 		AACC93E5196CCAD0004EC101 /* RegisterDeviceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RegisterDeviceViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -79,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4B5B3019AF0CAA002C3ABE /* Crashlytics.framework in Frameworks */,
 				2C52FAA12D0C4F209E7974F3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +101,7 @@
 		1629DF18FA094349B9FFE4D8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA4B5B2F19AF0CAA002C3ABE /* Crashlytics.framework */,
 				6AB7CC7966F44C22900C03D5 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -200,7 +206,9 @@
 			isa = PBXGroup;
 			children = (
 				AA8BF788196CA12F00570724 /* Info.plist */,
+				AAC9E7EA19AEFF9B0097DB7D /* CrashlyticsBuildPhase.sh */,
 				AA8BF789196CA12F00570724 /* main.m */,
+				AAC9E7EC19AF020A0097DB7D /* CrashlyticsAPIKey.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -234,6 +242,7 @@
 				AA8BF781196CA12F00570724 /* Frameworks */,
 				AA8BF782196CA12F00570724 /* Resources */,
 				0EFBE99E7C58426A9417F849 /* Copy Pods Resources */,
+				AAC9E7E719AEFE2D0097DB7D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -348,6 +357,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		AAC9E7E719AEFE2D0097DB7D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "[ -f Notifications/CrashlyticsBuildPhase.sh ] && ./Notifications/CrashlyticsBuildPhase.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -483,6 +505,23 @@
 				INFOPLIST_FILE = Notifications/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/HexColors\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/MTBBarcodeScanner\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Mantle\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/SSKeychain\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/TSMessages\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
@@ -513,6 +552,24 @@
 				INFOPLIST_FILE = Notifications/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/AFNetworking\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/HexColors\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/MTBBarcodeScanner\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/Mantle\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/SSKeychain\"",
+					"-isystem",
+					"\"${PODS_ROOT}/Headers/TSMessages\"",
+					"-DINCLUDE_CRASHLYTICS=1",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-framework",
