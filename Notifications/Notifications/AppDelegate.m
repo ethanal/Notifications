@@ -14,6 +14,11 @@
 #import "NotificationListViewController.h"
 #import "NotificationDetailViewController.h"
 
+#ifdef INCLUDE_CRASHLYTICS
+    #import <Crashlytics/Crashlytics.h>
+    #import "CrashlyticsAPIKey.h"
+#endif
+
 @interface AppDelegate ()
 
 @property (nonatomic, assign) NSInteger apnFeedID;
@@ -25,6 +30,12 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    #ifdef INCLUDE_CRASHLYTICS
+        #ifdef CRASHLYTICS_API_KEY
+            [Crashlytics startWithAPIKey:CRASHLYTICS_API_KEY];
+        #endif
+    #endif
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     UITableViewController *feedlistVC = [[FeedListViewController alloc] init];

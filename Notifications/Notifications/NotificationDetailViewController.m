@@ -43,10 +43,37 @@
     [self.view addSubview:self.sentDateLabel];
     
     self.messageTextView = [UITextView new];
+    self.messageTextView.editable = NO;
+    NSString *html = self.notification.message;
     
-    NSString *html = [self.notification.message stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
-    NSString *prefix = @"<meta charset=\"UTF-8\"><style>* {font-size: 15px; font-family: 'HelveticaNeue'}</style>";
-    html = [prefix stringByAppendingString:html];
+    BOOL isHTML = ([html rangeOfString:@"</"].location != NSNotFound);
+    
+    NSArray *singletonTags = @[@"img",
+                               @"br",
+                               @"area ",
+                               @"base",
+                               @"col",
+                               @"command",
+                               @"embed",
+                               @"hr",
+                               @"input",
+                               @"link",
+                               @"meta",
+                               @"param",
+                               @"source"];
+    for (NSString *tag in singletonTags) {
+        isHTML = isHTML || ([html rangeOfString:tag].location != NSNotFound);
+    }
+    
+    if (!isHTML) {
+        html = [html stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+    }
+        
+    if ([html rangeOfString:@"<html>"].location == NSNotFound) {
+        CGFloat textViewWidth = self.view.frame.size.width - 40.0f;
+        NSString *style = [NSString stringWithFormat:@"<style>* {font-size: 15px; font-family: 'HelveticaNeue'; max-width: %fpx;}</style>", textViewWidth];
+        html = [style stringByAppendingString:html];
+    }
     NSData *htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *attributedStringOptions = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)
@@ -54,6 +81,8 @@
     NSAttributedString *messageContent = [[NSAttributedString alloc] initWithData:htmlData options:attributedStringOptions documentAttributes:nil error:nil];
     self.messageTextView.attributedText = messageContent;
     
+    self.messageTextView.dataDetectorTypes = UIDataDetectorTypeLink;
+    self.messageTextView.editable = NO;
     self.messageTextView.textContainer.lineFragmentPadding = 0;
     self.messageTextView.textContainerInset = UIEdgeInsetsZero;
     self.messageTextView.translatesAutoresizingMaskIntoConstraints = NO;

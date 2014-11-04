@@ -118,7 +118,7 @@ static NSString *APIToken;
 
 
 - (void)fetchNotificationsForFeedWithID:(NSInteger)feedID withCallback:(FetchedNotifications)callback {
-    [self GET:[NSString stringWithFormat:@"feeds/%d/notifications/list", feedID] parameters:@{}
+    [self GET:[NSString stringWithFormat:@"feeds/%ld/notifications/list", (long)feedID] parameters:@{}
       success:^(AFHTTPRequestOperation *operation , id responseObject) {
           NSMutableArray *notifications = [[NSMutableArray alloc] initWithCapacity:10];
 
@@ -135,7 +135,7 @@ static NSString *APIToken;
 }
 
 - (void)fetchNotificationWithID:(NSInteger)feedID withCallback:(FetchedNotification)callback {
-    [self GET:[NSString stringWithFormat:@"notifications/%d", feedID] parameters:@{}
+    [self GET:[NSString stringWithFormat:@"notifications/%ld", (long)feedID] parameters:@{}
       success:^(AFHTTPRequestOperation *operation , id responseObject) {
           Notification *notification = [MTLJSONAdapter modelOfClass:Notification.class fromJSONDictionary:responseObject error:nil];
           callback(notification);
@@ -153,7 +153,7 @@ static NSString *APIToken;
 }
 
 - (void)markFeedWithIDRead: (NSInteger)feedID {
-    [self POST:[NSString stringWithFormat:@"feeds/%d/notifications/mark_viewed", feedID] parameters:nil constructingBodyWithBlock:nil success:nil
+    [self POST:[NSString stringWithFormat:@"feeds/%ld/notifications/mark_viewed", (long)feedID] parameters:nil constructingBodyWithBlock:nil success:nil
        failure:^(AFHTTPRequestOperation *operation , NSError *error) {
            NSLog(@"ERROR: %@", error);
        }];
@@ -162,7 +162,7 @@ static NSString *APIToken;
 
 - (BOOL)subscribeToFeedWithID:(NSInteger)feedID {
     if (![APIClient deviceToken]) return false;
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@feeds/%d/subscribe", APIRoot, feedID]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@feeds/%ld/subscribe", APIRoot, (long)feedID]]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     [request setValue:APIToken forHTTPHeaderField:@"Authorization"];
@@ -170,7 +170,7 @@ static NSString *APIToken;
     NSString *postString = [NSString stringWithFormat:@"device_token=%@", [APIClient deviceToken]];
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%u", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[data length]] forHTTPHeaderField:@"Content-Length"];
     
     NSHTTPURLResponse *response = nil;
     NSError *error = nil;
@@ -189,7 +189,7 @@ static NSString *APIToken;
     //    }];
     if (![APIClient deviceToken]) return;
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@feeds/%d/unsubscribe", APIRoot, feedID]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@feeds/%ld/unsubscribe", APIRoot, (long)feedID]]];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
     [request setValue:APIToken forHTTPHeaderField:@"Authorization"];
@@ -197,7 +197,7 @@ static NSString *APIToken;
     NSString *postString = [NSString stringWithFormat:@"device_token=%@", [APIClient deviceToken]];
     NSData *data = [postString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:data];
-    [request setValue:[NSString stringWithFormat:@"%u", [data length]] forHTTPHeaderField:@"Content-Length"];
+    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[data length]] forHTTPHeaderField:@"Content-Length"];
     [NSURLConnection connectionWithRequest:request delegate:self];
     
 }
