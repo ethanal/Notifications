@@ -7,3 +7,5 @@ argparse==1.2.1
 djangorestframework==2.3.14
 gunicorn==18.0
 wsgiref==0.1.2
+newrelic==2.18.1.15
+
