@@ -59,7 +59,7 @@ class Notification(models.Model):
         apns_server = ("gateway.sandbox.push.apple.com", 2195)
 
         s = socket.socket()
-        sock = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_SSLv3, certfile=cert)
+        sock = ssl.wrap_socket(s, ssl_version=ssl.PROTOCOL_TLSv1, certfile=cert)
         sock.connect(apns_server)
 
         payload_dict = {
