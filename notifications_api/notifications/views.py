@@ -57,7 +57,7 @@ def dashboard_view(request, form=None, form_errors=False):
 
     api_root_uri = request.build_absolute_uri(reverse("api_root"))
     qr_code_contents = base64.b64encode("{} {}".format(api_root_uri, request.user.auth_token.key))
-    qr_code_url = "http://chart.apis.google.com/chart?cht=qr&chs=300x300&chld=H|0&chl=" + qr_code_contents
+    qr_code_url = "//chart.googleapis.com/chart?cht=qr&chs=300x300&chld=H|0&chl=" + qr_code_contents
     return render(request, "notifications/dashboard.html", {
         "user": request.user,
         "devices": Device.objects.filter(id__in=list(set([d for d in feedset.values_list("devices", flat=True) if d is not None]))),
