@@ -21,6 +21,7 @@ typedef void(^FetchedDictionary)(NSDictionary *dictionary);
 + (instancetype)sharedClient;
 + (NSString *)deviceToken;
 + (void)setDeviceToken: (NSString *)token;
++ (void)updateInstance;
 
 - (void)registerDevice:(NSString*)deviceName withCallback:(void (^)())callback;
 - (void)fetchDeviceInfo: (FetchedDictionary)callback;

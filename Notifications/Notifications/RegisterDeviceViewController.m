@@ -247,6 +247,7 @@
     } else {
         if (buttonIndex == 1) {
             NSString *deviceName = [alertView textFieldAtIndex:0].text;
+            [APIClient updateInstance];
             [[APIClient sharedClient] registerDevice:deviceName withCallback:^{
                 [self dismissViewController:nil];
             }];

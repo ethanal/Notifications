@@ -21,14 +21,12 @@
 
 static NSString *APIRoot;
 static NSString *APIToken;
+static APIClient *__instance;
 
 + (instancetype)sharedClient {
-    static APIClient *__instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        APIRoot = [[[NSUserDefaults standardUserDefaults] objectForKey:@"APIRoot"] stringByAppendingString:@"/"];
-        APIToken = [@"Token " stringByAppendingString:[SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"]];
-        __instance = [[APIClient alloc] initWithBaseURL:[NSURL URLWithString:APIRoot]];
+        __instance = [APIClient getInstance];;
     });
     
     return __instance;
@@ -40,6 +38,25 @@ static NSString *APIToken;
         [self.requestSerializer setValue:APIToken forHTTPHeaderField:@"Authorization"];
     }
     return self;
+}
+
++ (APIClient *) getInstance {
+    APIRoot = [[[NSUserDefaults standardUserDefaults] objectForKey:@"APIRoot"] stringByAppendingString:@"/"];
+    if (APIRoot == nil) {
+        APIRoot = @"http://localhost";
+    }
+    
+    NSString *token = [SSKeychain passwordForService:[[NSBundle mainBundle] bundleIdentifier] account:@"API"];
+    if (token == nil) {
+        token = @"NO_TOKEN";
+    }
+    APIToken = [@"Token " stringByAppendingString:token];
+    
+    return [[APIClient alloc] initWithBaseURL:[NSURL URLWithString:APIRoot]];
+}
+
++ (void) updateInstance {
+    __instance = [APIClient getInstance];
 }
 
 + (NSString *) deviceToken {
@@ -57,6 +74,7 @@ static NSString *APIToken;
         callback();
     } failure:^(AFHTTPRequestOperation *operation , NSError *error) {
         NSLog(@"ERROR: %@", error);
+        NSLog(@"FOO: %@", operation.request);
     }];
 }
 
