@@ -16,6 +16,20 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+INSTALLED_APPS = (
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.admin",
+    "south",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "notifications",
+)
+
 if DEBUG:
     SECRET_KEY = "vjbub57veqw!1#q#-w5z4^v^(kw0%m345qjx5jgd)n8n#xx=4w"
     DATABASES = {
@@ -26,6 +40,15 @@ if DEBUG:
     }
 else:
     from secret import *
+
+    try:
+        RAVEN_CONFIG
+        INSTALLED_APPS += (
+            "raven.contrib.django.raven_compat",
+        )
+    except NameError:
+        pass
+
     urlparse.uses_netloc.append("mysql")
     url = urlparse.urlparse(DATABASE_URL)
 
@@ -132,19 +155,6 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, "templates"),
 )
 
-INSTALLED_APPS = (
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.sites",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django.contrib.admin",
-    "south",
-    "rest_framework",
-    "rest_framework.authtoken",
-    "notifications",
-)
 
 
 REST_FRAMEWORK = {
