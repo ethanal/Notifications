@@ -62,10 +62,16 @@
                                @"param",
                                @"source"];
     for (NSString *tag in singletonTags) {
-        isHTML = isHTML || ([html rangeOfString:tag].location != NSNotFound);
+        isHTML = isHTML || ([html rangeOfString:[@"<" stringByAppendingString:tag]].location != NSNotFound);
     }
     
     if (!isHTML) {
+        html = [html stringByReplacingOccurrencesOfString: @"&" withString: @"&amp;"];
+        html = [html stringByReplacingOccurrencesOfString: @"\"" withString: @"&quot;"];
+        html = [html stringByReplacingOccurrencesOfString: @"'" withString: @"&#39;"];
+        html = [html stringByReplacingOccurrencesOfString: @">" withString: @"&gt;"];
+        html = [html stringByReplacingOccurrencesOfString: @"<" withString: @"&lt;"];
+        
         html = [html stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
     }
         
@@ -74,6 +80,7 @@
         NSString *style = [NSString stringWithFormat:@"<style>* {font-size: 15px; font-family: 'HelveticaNeue'; max-width: %fpx;}</style>", textViewWidth];
         html = [style stringByAppendingString:html];
     }
+    
     NSData *htmlData = [html dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *attributedStringOptions = @{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
                                               NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)
